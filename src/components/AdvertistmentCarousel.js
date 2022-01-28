@@ -4,7 +4,7 @@ import ReactCaroussel from "react-caroussel";
 
 function AdvertistmentCarousel() {
   return (
-    <div className="w-2/4 h-20 mx-auto ">
+    <div className="w-2/4 h-20 mx-auto  ">
       <div className="h-16"></div>
       <div
         id="carouselExampleControls"
@@ -12,7 +12,7 @@ function AdvertistmentCarousel() {
         data-bs-ride="carousel"
       >
         <div class="carousel-inner relative w-full overflow-hidden">
-          <div class="carousel-item active relative float-left w-full">
+          <div class="carousel-item active relative float-left w-full ">
             <div className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 text-center">
               <h3 className="justify-center text-xl font-semibold text-white p-8">
                 Next Ad Goes Here

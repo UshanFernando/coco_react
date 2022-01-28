@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
-import ListItemSeller from "../components/ListItemSeller";
+import ListItemBuyer from "../components/ListItemBuyer";
 
 import SelectBox from "../components/SelectBox";
 
@@ -44,7 +44,7 @@ const sortings = [
   { id: 4, name: "Punctually Rating Highest", unavailable: false },
 ];
 
-function Search() {
+function SearchBuyers() {
   const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
   const [selectedScale, setSelectedScale] = useState(scale[0]);
   const [selectedSorting, setSelectedSorting] = useState(districts[0]);
@@ -55,7 +55,8 @@ function Search() {
         {/* <h1 class="text-3xl font-normal leading-normal mx-auto text-center lg:mx-72 mt-28 lg:text-left">
           Search Sellers
         </h1> */}
-        <div className="flex flex-wrap mt-28 mx-10 justify-center">
+        <h1 className="align self-center text-center w-auto text-3xl mt-24">Search Coconut Buyers</h1>
+        <div className="flex flex-wrap mt-5 mx-10 justify-center">
           <div className="flex  mt-2">
             <SelectBox
               list={districts}
@@ -84,14 +85,34 @@ function Search() {
         </div>
 
         <div className="container py-4 mt-4">
-          <ListItemSeller name={"John Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={3}/>
-          <ListItemSeller name={"Nimal Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={4}/>
-          <ListItemSeller name={"Kasun Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={5}/>
-          <ListItemSeller name={"Dinith Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={2}/>
+          <ListItemBuyer
+            name={"John Fernando"}
+            district={"Colombo"}
+            scale={"Large"}
+            rating={3}
+          />
+          <ListItemBuyer
+            name={"Nimal Fernando"}
+            district={"Colombo"}
+            scale={"Large"}
+            rating={4}
+          />
+          <ListItemBuyer
+            name={"Kasun Fernando"}
+            district={"Colombo"}
+            scale={"Large"}
+            rating={5}
+          />
+          <ListItemBuyer
+            name={"Dinith Fernando"}
+            district={"Colombo"}
+            scale={"Large"}
+            rating={2}
+          />
         </div>
       </div>
     </div>
   );
 }
 
-export default Search;
+export default SearchBuyers;

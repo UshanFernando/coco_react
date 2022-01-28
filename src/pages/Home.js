@@ -18,7 +18,7 @@ function Home() {
           </button>
         </div>
         <img
-          className="h-auto object-cover "
+          className="w-full h-full object-cover "
           src="https://images.unsplash.com/photo-1639555970484-b56343b9c234?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
           alt="nike shoes"
         />
@@ -29,6 +29,7 @@ function Home() {
       <div class="absolute inset-0 flex justify-center items-center h-2/3 z-10 mt-32">
         <h3 class="text-3xl font-bold text-gray-200">Online Platform for buy and sell coconuts in Sri Lanka</h3>
       </div> */}
+      
     </div>
   );
 }

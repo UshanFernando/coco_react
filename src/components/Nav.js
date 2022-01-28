@@ -71,7 +71,7 @@ function Nav() {
           lg:mt-0
           mr-1
         "
-            href="#"
+            href="home"
           >
             <img
               src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
@@ -93,7 +93,7 @@ function Nav() {
             <li class="nav-item p-2">
               <a
                 class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-                href="#"
+                href="sellers"
               >
                 Sellers
               </a>
@@ -101,7 +101,7 @@ function Nav() {
             <li class="nav-item p-2">
               <a
                 class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-                href="#"
+                href="buyers"
               >
                 Buyers
               </a>
