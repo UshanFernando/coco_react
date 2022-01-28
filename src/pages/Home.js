@@ -1,5 +1,5 @@
 import React from "react";
-
+import CountUp from "react-countup";
 function Home() {
   return (
     <div className="w-screen h-screen ">
@@ -29,7 +29,20 @@ function Home() {
       <div class="absolute inset-0 flex justify-center items-center h-2/3 z-10 mt-32">
         <h3 class="text-3xl font-bold text-gray-200">Online Platform for buy and sell coconuts in Sri Lanka</h3>
       </div> */}
-      
+      <div className="flex flex-row p-4 justify-center items-center mt-10">
+        <div className="flex flex-row items-center">
+          <h3 className="text-4xl mr-4"> Number of Buyers </h3>
+          <div className="text-6xl font-semibold text-transparent  bg-clip-text bg-gradient-to-r from-green-500 to-green-700">
+            <CountUp end={124} duration={3} />
+          </div>
+        </div>
+        <div className="flex flex-row items-center ml-20">
+          <h3 className="text-4xl mr-4 "> Number of Sellers </h3>
+          <div className=" font-semibold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
+            <CountUp end={224} duration={3} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

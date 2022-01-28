@@ -85,7 +85,7 @@ function Nav() {
             <li class="nav-item p-2">
               <a
                 class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-                href="#"
+                href="admin"
               >
                 Dashboard
               </a>
