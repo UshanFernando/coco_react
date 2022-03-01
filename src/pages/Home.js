@@ -1,5 +1,6 @@
 import React from "react";
 import CountUp from "react-countup";
+import ListItemBuyer from "../components/ListItemBuyer";
 function Home() {
   return (
     <div className="w-screen h-screen ">
@@ -10,12 +11,22 @@ function Home() {
           <h3 class="text-3xl font-bold text-gray-200 text-center mt-5">
             Online Platform for buy and sell coconuts in Sri Lanka
           </h3>
-          <button
-            type="button"
-            className="mx-auto mt-5 inline-block px-2 py-4 w-60 bg-green-500 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
-          >
-            Register Now
-          </button>
+          <div className="flex flex-row mx-auto">
+            <button
+              type="button"
+              className=" mt-5 text-center inline-block px-2 py-4 w-60 bg-green-500 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
+              href="/register"
+            >
+              Register Now
+            </button>
+            <a
+              type="button"
+              className="ml-4 mt-5 text-center inline-block px-2 py-4 w-60 bg-blue-500 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-blue-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out"
+              href="/login"
+            >
+              Login
+            </a>
+          </div>
         </div>
         <img
           className="w-full h-full object-cover "
@@ -31,18 +42,139 @@ function Home() {
       </div> */}
       <div className="flex flex-row p-4 justify-center items-center mt-10">
         <div className="flex flex-row items-center">
-          <h3 className="text-4xl mr-4"> Number of Buyers </h3>
-          <div className="text-6xl font-semibold text-transparent  bg-clip-text bg-gradient-to-r from-green-500 to-green-700">
+          <h3 className="text-2xl mr-4"> Number of Buyers </h3>
+          <div className="text-4xl font-semibold text-transparent  bg-clip-text bg-gradient-to-r from-green-500 to-green-700">
             <CountUp end={124} duration={3} />
           </div>
         </div>
         <div className="flex flex-row items-center ml-20">
-          <h3 className="text-4xl mr-4 "> Number of Sellers </h3>
-          <div className=" font-semibold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
+          <h3 className="text-2xl mr-4 "> Number of Sellers </h3>
+          <div className=" font-semibold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
             <CountUp end={224} duration={3} />
           </div>
         </div>
+        <div className="flex flex-row items-center ml-20">
+          <h3 className="text-2xl mr-4 "> Maximum Asking Price </h3>
+          <div className=" font-semibold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
+            <CountUp end={27000} duration={3} /> Rs
+          </div>
+        </div>
       </div>
+      <h3 className="text-2xl w-screen text-center mt-20 font-semibold text-lime-700"> Premium Buyers </h3>
+      <div
+        id="carouselExampleControls"
+        class="carousel slide relative mx-40 mt-6 mb-20"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner relative w-full overflow-hidden pt-4 bg-lime-50">
+          <div class="carousel-item active relative float-left w-full">
+            <ListItemBuyer
+              name={"Nimal Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+          <div class="carousel-item relative float-left w-full">
+            <ListItemBuyer
+              name={"Sunil Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+          <div class="carousel-item relative float-left w-full ">
+            <ListItemBuyer
+              name={"Kamal Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+        </div>
+        <button
+          class="bg-lime-500 carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon inline-block bg-no-repeat "
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="bg-lime-500 carousel-control-next absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="next"
+        >
+          <span
+            class="carousel-control-next-icon inline-block bg-no-repeat"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <h3 className="text-2xl w-screen text-center mt-20 font-semibold text-lime-700"> Premium Sellers </h3>
+      <div
+        id="carouselExampleControls"
+        class="carousel slide relative mx-40 mt-6 mb-20"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner relative w-full overflow-hidden pt-4 bg-lime-50">
+          <div class="carousel-item active relative float-left w-full">
+            <ListItemBuyer
+              name={"Nimal Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+          <div class="carousel-item relative float-left w-full">
+            <ListItemBuyer
+              name={"Sunil Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+          <div class="carousel-item relative float-left w-full ">
+            <ListItemBuyer
+              name={"Kamal Fernando"}
+              district={"Colombo"}
+              scale={"Large"}
+              rating={5}
+            />
+          </div>
+        </div>
+        <button
+          class="bg-lime-500 carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon inline-block bg-no-repeat "
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="bg-lime-500 carousel-control-next absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="next"
+        >
+          <span
+            class="carousel-control-next-icon inline-block bg-no-repeat"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div className="h-20"></div>
     </div>
   );
 }

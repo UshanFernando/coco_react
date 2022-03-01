@@ -6,7 +6,7 @@ import {
 import React, { useState } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 
-function Admin() {
+function AdminSellers() {
   const [isOpened, setIsOpened] = useState(false);
   const handleSidebar = () => {
     setIsOpened(!isOpened);
@@ -16,7 +16,7 @@ function Admin() {
       <AdminSidebar
         handleSidebar={handleSidebar}
         isOpened={isOpened}
-        selected="users"
+        selected="sellers"
       />
       <div className="flex-1 flex overflow-hidden pt-20 ">
         <div class="flex-1 overflow-y-scroll">
@@ -24,8 +24,9 @@ function Admin() {
             className={`w-10 ml-4 ${isOpened ? "hidden" : " md:hidden"}`}
             onClick={handleSidebar}
           />
-          <h3 className="ml-8 text-xl font-semibold mb-4">Manage Buyers</h3>
-          <div className="hidden flex-row justify-between  mx-20 md:flex">
+
+          <h3 className="ml-8 text-xl font-semibold mb-4">Manage Sellers</h3>
+          <div className="hidden flex-row justify-between  mx-20 md:flex ">
             <div className="relative z-0 mb-2 w-72 group">
               <input
                 type="text"
@@ -131,7 +132,7 @@ function Admin() {
                         Large
                       </td>
                       <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/buyerAccount">
+                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/sellerAccount">
                           {" "}
                           Change Status
                         </a>
@@ -154,7 +155,7 @@ function Admin() {
                         Large
                       </td>
                       <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/buyerAccount">
+                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/sellerAccount">
                           {" "}
                           Change Status
                         </a>
@@ -177,10 +178,10 @@ function Admin() {
                         Large
                       </td>
                       <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <button className="bg-red-500 p-2 text-white rounded-xl">
+                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/sellerAccount">
                           {" "}
                           Change Status
-                        </button>
+                        </a>
                       </td>
                     </tr>
                   </tbody>
@@ -194,4 +195,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default AdminSellers;
