@@ -2,7 +2,7 @@ import { ArrowCircleRightIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-function Register() {
+function PostAdBuyer() {
   const navigate = useNavigate();
 
   const toreg2 = () => {
@@ -11,14 +11,14 @@ function Register() {
 
   return (
     <div class="lg:flex ">
-      <div class="lg:w-4/5 xl:max-w-screen-sm">
+      <div class="w-screen ">
         <div className="h-10"></div>
-        <div class="mt-4 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-12 xl:max-w-2xl">
+        <div class="mt-4 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-12 xl:max-w-2xl mx-auto">
           <h2
             class="text-center text-4xl text-green-900  font-semibold lg:text-left xl:text-3xl
           xl:text-bold mb-8"
           >
-            Registration
+            Post New Advertisement
           </h2>
           <Formik
             initialValues={{ email: "", password: "" }}
@@ -85,44 +85,7 @@ function Register() {
               /* and other goodies */
             }) => (
               <form onSubmit={handleSubmit}>
-                <div class="flex flex-wrap mx-auto mb-6">
-                  <a
-                    class="
-                    inline-flex
-                    items-center
-                    justify-center
-                    w-1/2
-                    py-3
-                    font-medium
-                    leading-none
-                    tracking-wider
-                    text-green-500
-                    bg-gray-100
-                    border-b-2 border-green-500
-                    rounded-t
-                    sm:px-6 sm:w-auto sm:justify-start
-                  "
-                  >
-                    STEP 1
-                  </a>
-                  <a
-                    class="
-                    inline-flex
-                    items-center
-                    justify-center
-                    w-1/2
-                    py-3
-                    font-medium
-                    leading-none
-                    tracking-wider
-                    border-b-2 border-gray-200
-                    sm:px-6 sm:w-auto sm:justify-start
-                    hover:text-gray-900
-                  "
-                  >
-                    STEP 2
-                  </a>
-                </div>
+             
                 <div class="grid xl:grid-cols-2 xl:gap-6">
                   <div class="relative z-0 mb-6 w-full group">
                     <input
@@ -403,15 +366,8 @@ function Register() {
           </Formik>
         </div>
       </div>
-      <div class="hidden lg:flex items-center justify-center bg-green-100 flex-1 h-screen">
-        <img
-          className="h-screen w-full object-cover "
-          src="https://images.unsplash.com/photo-1564490292125-2e3c78a0ef44?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          alt="nike shoes"
-        />
-      </div>
     </div>
   );
 }
 
-export default Register;
+export default PostAdBuyer;

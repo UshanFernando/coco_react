@@ -243,23 +243,7 @@ function RegisterBuyer() {
                 for="floating_repeat_password"
                 className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Nearest City
-              </label>
-            </div>
-            <div className="relative z-0 mb-6 w-full group">
-              <input
-                type="password"
-                name="repeat_password"
-                id="floating_repeat_password"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                placeholder=" "
-                required
-              />
-              <label
-                for="floating_repeat_password"
-                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Inheritor Name
+                Inheritor Name*
               </label>
             </div>
             <div className="grid xl:grid-cols-2 xl:gap-6">
@@ -297,6 +281,22 @@ function RegisterBuyer() {
               </div>
             </div>
 
+            <div className="relative z-0 mb-6 w-full group">
+              <input
+                type="password"
+                name="repeat_password"
+                id="floating_repeat_password"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                for="floating_repeat_password"
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Nearest City
+              </label>
+            </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
                 type="password"
@@ -363,7 +363,7 @@ function RegisterBuyer() {
       <div className="hidden lg:flex items-center justify-center bg-green-100 flex-1 h-auto">
         <img
           className="h-full object-cover "
-          src="https://images.unsplash.com/photo-1621442745928-8f8d98021f35?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80"
+          src="https://images.unsplash.com/photo-1553787434-dd9eb4ea4d0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
           alt="nike shoes"
         />
       </div>
