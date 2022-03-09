@@ -152,7 +152,7 @@ function RegisterSeller() {
             </div>
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-4 w-full group">
-              <select
+                <select
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
                   id="grid-state"
                   name="scale"
@@ -210,7 +210,7 @@ function RegisterSeller() {
                   for="floating_last_name"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Interval Between Harvest*
+                  Interval Between Harvest(In Base)*
                 </label>
               </div>
               <div className="relative z-0 mb-6 w-full group ">
@@ -229,7 +229,7 @@ function RegisterSeller() {
                   for="floating_last_name"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Total Land*
+                  Total Land (Acres)*
                 </label>
               </div>
             </div>
@@ -251,7 +251,7 @@ function RegisterSeller() {
                   for="floating_first_name"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Yield Per Harvest*
+                  Yield Per Harvest (Average)*
                 </label>
               </div>
               <div className="relative z-0 mb-6 w-full group">
@@ -270,7 +270,7 @@ function RegisterSeller() {
                   for="floating_last_name"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Total Number of Trees*
+                  Total Number of Trees (Approximately)*
                 </label>
               </div>
             </div>
@@ -373,6 +373,42 @@ function RegisterSeller() {
               >
                 Enter Areas You are Comfortable to Collecting Form
               </label>
+            </div>
+            <div className="grid xl:grid-cols-2 xl:gap-6">
+              <div className="relative z-0 mb-6 w-full group">
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
+                  id="grid-state"
+                >
+                  <option>None</option>
+                  <option>Private</option>
+                  <option>Public</option>
+                  <option>Church</option>
+                  <option>Other</option>
+                </select>
+                <label
+                  for="floating_first_name"
+                  className="absolute text-xl  text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 mt-1"
+                >
+                 Organization Type*
+                </label>
+              </div>
+              <div className="relative z-0 mb-6 w-full group mt-4">
+                <input
+                  type="text"
+                  name="floating_last_name"
+                  id="floating_last_name"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  placeholder=" "
+                  required
+                />
+                <label
+                  for="floating_last_name"
+                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Organization Name
+                </label>
+              </div>
             </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
@@ -492,7 +528,7 @@ function RegisterSeller() {
       <div className="hidden lg:flex items-center justify-center bg-green-100 flex-1 h-auto">
         <img
           className="h-full object-cover "
-          src="https://images.unsplash.com/photo-1621442745928-8f8d98021f35?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2669&q=80"
+          src="https://images.unsplash.com/photo-1564490292125-2e3c78a0ef44?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
           alt="nike shoes"
         />
       </div>

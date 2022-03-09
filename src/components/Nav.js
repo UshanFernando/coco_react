@@ -106,6 +106,15 @@ function Nav() {
                 Buyers
               </a>
             </li>
+
+            <li class="nav-item p-2">
+              <a
+                class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
+                href="offers"
+              >
+                My Offers
+              </a>
+            </li>
           </ul>
         </div>
 

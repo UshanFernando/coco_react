@@ -20,6 +20,10 @@ import RegisterSeller from "./pages/RegisterSeller";
 import AdminSellers from "./pages/AdminSellers";
 import BuyerAccount from "./pages/BuyerAcount";
 import SellerAccount from "./pages/SellerAccount";
+import PostAdBuyer from "./pages/PostAdBuyer";
+import PostAdSeller from "./pages/PostAdSeller";
+import MyOffers from "./pages/MyOffers";
+import OfferDetails from "./pages/OfferDetails";
 
 function App() {
   return (
@@ -68,6 +72,22 @@ function App() {
 
           <Route element={<WithNav />}>
             <Route path="/sellerAccount" element={<SellerAccount />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/postAdBuyer" element={<PostAdBuyer />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/postAdSeller" element={<PostAdSeller />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/offers" element={<MyOffers />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/viewOffer" element={<OfferDetails />} />
           </Route>
 
           {/* <Route exact path="/login" element={<Login />} />
