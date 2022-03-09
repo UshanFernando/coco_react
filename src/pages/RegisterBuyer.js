@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLocation,useNavigate  } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import {useState} from "react";
 
 const districts = [
   { id: 1, name: "Colombo", unavailable: false },
@@ -31,12 +32,66 @@ const districts = [
 function RegisterBuyer(params) {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [isBusiness, setisBusiness] = useState(false);
 
-  const handleSubmit=(e)=>{
-    e.preventDefault();
-    console.log(e);
-
+  const showBusiness=()=>{
+    setisBusiness(true);
   }
+  const hideBusiness=()=>{
+    setisBusiness(false);
+  }
+
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+   
+  //     try {
+  //       const requestOptions = {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           name: "",
+  //           type: "",
+  //           email: "",
+  //           password: "",
+  //           mobile1: "",
+  //           mobile2: "",
+  //           landLine: "",
+  //           state: "",//province
+  //           //Buyer
+  //           scaleOfBusiness: "",
+  //           canProvideTreeClimbers: "",
+  //           isRegisteredBusiness: "",
+  //           businessName: "",
+  //           alternateMobile: "",
+  //           alternateMobile2: "",
+  //           recieveCalls: "",
+  //           inheritorName: "",
+  //           inheritorMobile: "",
+  //           inheritorAltMobile: "",
+  //           aditionalInfo: "",
+  //           //seller
+  //           sizeOfLand: "",
+  //           yieldPerHarvest: "",
+  //           totalHarvest: "",
+  //           intervalBetweenHarvest: "",
+  //           recieveEmails: "",
+  //           dirstrict: "",
+  //         }),
+  //       };
+  //       await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, requestOptions);
+
+        
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+    
+  // };
+
+  // const handleSubmit=(e)=>{
+  //   e.preventDefault();
+  //   console.log(e);
+
+  // }
 
   return (
     <div className="lg:flex ">
@@ -100,14 +155,49 @@ function RegisterBuyer(params) {
               // }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log(values);
               console.log(state);
-              // if (values.utype == "Seller") {
-              //   navigate("/registerSeller", {state:values});
-              // } else if (values.utype == "Buyer") {
-              //   navigate("/registerBuyer", {state:values});
-              // }
+              try {
+                const requestOptions = {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    name: state.fname+" "+state.lname,
+                    type: state.utype,
+                    email: state.email,
+                    password: state.password,
+                    mobile1: state.mobile,
+                    mobile2: state.altMobile,
+                    landLine: state.landLine,
+                    state: state.province,//province
+                    //Buyer
+                    scaleOfBusiness: values.registered_business,
+                    canProvideTreeClimbers: values.provide_tree_climber,
+                    isRegisteredBusiness: values.registered_business,
+                    businessName: values.business_name,
+                    alternateMobile: values.alternative_phone,
+                    alternateMobile2: values.alternative_phone1,
+                    recieveCalls: values.receive_calls,
+                    inheritorName: values.registered_business,
+                    inheritorMobile: values.inheritor_phone,
+                    inheritorAltMobile:values.inheritor_phone_alt,
+                    aditionalInfo: values.additional_info,
+                    //seller
+                    sizeOfLand: "",
+                    yieldPerHarvest: "",
+                    totalHarvest: "",
+                    intervalBetweenHarvest: "",
+                    recieveEmails: "",
+                    dirstrict: "",
+                  }),
+                };
+                const result=await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, requestOptions);
+                console.log(result);
+                
+              } catch (e) {
+                console.log(e);
+              }
             }}
           >
             {({
@@ -256,6 +346,7 @@ function RegisterBuyer(params) {
                     name="registered_business"
                     id="inlineRadio1"
                     value="true"
+                    onClick={showBusiness}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     // value={values.inlineRadioOptions2}
@@ -274,6 +365,7 @@ function RegisterBuyer(params) {
                     name="registered_business"
                     id="inlineRadio2"
                     // value="option2"
+                    onClick={hideBusiness}
                     defaultChecked
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -288,7 +380,27 @@ function RegisterBuyer(params) {
                 </div>
               </div>
             </div>
-
+            { isBusiness ? (
+            <div className="relative z-0 mb-6 mt-2 w-full group">
+              <input
+                type="text"
+                name="business_name"
+                id="floating_repeat_password"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.business_name}
+                required
+              />
+              <label
+                for="floating_repeat_password"
+                className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Business Name
+              </label>
+            </div>) : null }
+            
             <div className="grid xl:grid-cols-2 xl:gap-6 mt-4">
               <div className="relative z-0 mb-6 w-full group">
                 <input
