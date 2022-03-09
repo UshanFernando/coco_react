@@ -66,11 +66,11 @@ function Register() {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              console.log("submit called");
+              console.log("submitted");
               if (values.utype == "Seller") {
-                navigate("/registerSeller", values);
+                navigate("/registerSeller", {state:values});
               } else if (values.utype == "Buyer") {
-                navigate("/registerBuyer", values);
+                navigate("/registerBuyer", {state:values});
               }
             }}
           >

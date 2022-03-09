@@ -2,6 +2,7 @@ import { ArrowCircleRightIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 const districts = [
   { id: 1, name: "Colombo", unavailable: false },
   { id: 2, name: "Gampaha", unavailable: false },
@@ -27,6 +28,7 @@ const districts = [
   { id: 23, name: "Kegalle", unavailable: false },
 ];
 function RegisterSeller() {
+  const navigate = useNavigate();
   const location = useLocation();
   return (
     <div className="lg:flex ">
@@ -45,7 +47,71 @@ function RegisterSeller() {
           >
             Seller
           </h2>
-          <form>
+          <Formik
+            initialValues={{receive_emails: "false", recieve_calls: "false" }}
+            validate={(values) => {
+              const errors = {};
+              // if (!values.fname) {
+              //   errors.fname = "First Name is Required*";
+              // }
+              // if (!values.lname) {
+              //   errors.lname = "Last Name is Required*";
+              // }
+              // if (!values.utype || values.utype == "Select") {
+              //   errors.utype = "Please Select Buyer or Seller*";
+              // }
+              // if (!values.province || values.province == "Select") {
+              //   errors.province = "Please Select Province*";
+              // }
+              // if (!values.mobile) {
+              //   errors.mobile = "Mobile Number is Required*";
+              // }
+
+              // if (!values.landLine) {
+              //   errors.landLine = "Land Line is Required*";
+              // }
+
+              // //email
+              // if (!values.email) {
+              //   errors.email = "Email is Required";
+              // } else if (
+              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              // ) {
+              //   errors.email = "Invalid email address";
+              // }
+              // if (!values.password) {
+              //   errors.password = "Password Is Required*";
+              // } else if (values.password.length < 6) {
+              //   errors.password = "Password Is Too Short*";
+              // }
+
+              // if (!values.passwordConfirm) {
+              //   errors.passwordConfirm = "Confirm Password Is Required*";
+              // } else if (values.password != values.passwordConfirm) {
+              //   errors.passwordConfirm = "Passwords Not Matching*";
+              // }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              // if (values.utype == "Seller") {
+              //   navigate("/registerSeller", {state:values});
+              // } else if (values.utype == "Buyer") {
+              //   navigate("/registerBuyer", {state:values});
+              // }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              /* and other goodies */
+            }) => (
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-wrap mx-auto mb-6 ">
               <a
                 className="
@@ -89,10 +155,14 @@ function RegisterSeller() {
               <select
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
                   id="grid-state"
+                  name="scale"
+                  onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.scale}
                 >
-                  <option>Small Scale</option>
-                  <option>Medium Scale</option>
-                  <option>Large Scale</option>
+                  <option value="Small Scale">Small Scale</option>
+                  <option value="Medium Scale">Medium Scale</option>
+                  <option value="Large Scale">Large Scale</option>
                 </select>
                 <label
                   for="floating_first_name"
@@ -105,6 +175,10 @@ function RegisterSeller() {
                 <select
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
                   id="grid-state"
+                  name="district"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.district}
                 >
                   {districts.map((e) => {
                     return <option>{e.name}</option>;
@@ -123,10 +197,13 @@ function RegisterSeller() {
               <div class="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="interval_between_harvests"
                   id="floating_last_name"
                   class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.interval_between_harvests}
                   required
                 />
                 <label
@@ -139,10 +216,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group ">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="total_land"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.total_land}
                   required
                 />
                 <label
@@ -158,10 +238,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="yield_per_harvest"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.yield_per_harvest}
                   required
                 />
                 <label
@@ -173,11 +256,14 @@ function RegisterSeller() {
               </div>
               <div className="relative z-0 mb-6 w-full group">
                 <input
-                  type="text"
-                  name="floating_last_name"
+                  type="number"
+                  name="total_trees"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.total_trees}
                   required
                 />
                 <label
@@ -193,10 +279,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="inheritor_name"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.inheritor_name}
                   required
                 />
                 <label
@@ -209,10 +298,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="inheritor_mobile"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.inheritor_mobile}
                   required
                 />
                 <label
@@ -228,11 +320,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="inheritor_mobile_alt"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.inheritor_mobile_alt}
                 />
                 <label
                   for="floating_first_name"
@@ -244,11 +338,13 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="nearest_city"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.nearest_city}
                 />
                 <label
                   for="floating_last_name"
@@ -261,11 +357,14 @@ function RegisterSeller() {
 
             <div className="relative z-0 mb-6 w-full group">
               <input
-                type="password"
-                name="repeat_password"
+                type="text"
+                name="collecting_form_area"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.collecting_form_area}
                 required
               />
               <label
@@ -277,11 +376,14 @@ function RegisterSeller() {
             </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
-                type="password"
-                name="repeat_password"
+                type="text"
+                name="additional_info"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.additional_info}
                 required
               />
               <label
@@ -300,9 +402,11 @@ function RegisterSeller() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="recieve_calls"
                     id="inlineRadio1"
-                    value="option1"
+                    value="true"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -315,9 +419,12 @@ function RegisterSeller() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="recieve_calls"
                     id="inlineRadio2"
-                    value="option2"
+                    value="false"
+                    defaultChecked
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -337,9 +444,11 @@ function RegisterSeller() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="receive_emails"
                     id="inlineRadio1"
-                    value="option1"
+                    value="false"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -352,9 +461,13 @@ function RegisterSeller() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-green-600 checked:border-green-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="receive_emails"
                     id="inlineRadio2"
-                    value="option2"
+                    value="false"
+                    defaultChecked
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // value={values.scale}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -372,6 +485,8 @@ function RegisterSeller() {
               Finish and Submit
             </button>
           </form>
+           )}
+           </Formik>
         </div>
       </div>
       <div className="hidden lg:flex items-center justify-center bg-green-100 flex-1 h-auto">

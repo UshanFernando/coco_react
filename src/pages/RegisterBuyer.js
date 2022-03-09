@@ -1,7 +1,9 @@
 import { ArrowCircleRightIcon } from "@heroicons/react/solid";
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useLocation,useNavigate  } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+
 const districts = [
   { id: 1, name: "Colombo", unavailable: false },
   { id: 2, name: "Gampaha", unavailable: false },
@@ -26,8 +28,16 @@ const districts = [
   { id: 22, name: "Ratnapura", unavailable: false },
   { id: 23, name: "Kegalle", unavailable: false },
 ];
-function RegisterBuyer() {
-  const location = useLocation();
+function RegisterBuyer(params) {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log(e);
+
+  }
+
   return (
     <div className="lg:flex ">
       <div className="lg:w-4/5 xl:max-w-screen-sm ">
@@ -45,7 +55,72 @@ function RegisterBuyer() {
           >
             Buyer
           </h2>
-          <form>
+          <Formik
+            initialValues={{ registered_business: "false", provide_tree_climber: "false", receive_calls: "false" }}
+            validate={(values) => {
+              const errors = {};
+              // if (!values.fname) {
+              //   errors.fname = "First Name is Required*";
+              // }
+              // if (!values.lname) {
+              //   errors.lname = "Last Name is Required*";
+              // }
+              // if (!values.utype || values.utype == "Select") {
+              //   errors.utype = "Please Select Buyer or Seller*";
+              // }
+              // if (!values.province || values.province == "Select") {
+              //   errors.province = "Please Select Province*";
+              // }
+              // if (!values.mobile) {
+              //   errors.mobile = "Mobile Number is Required*";
+              // }
+
+              // if (!values.landLine) {
+              //   errors.landLine = "Land Line is Required*";
+              // }
+
+              // //email
+              // if (!values.email) {
+              //   errors.email = "Email is Required";
+              // } else if (
+              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              // ) {
+              //   errors.email = "Invalid email address";
+              // }
+              // if (!values.password) {
+              //   errors.password = "Password Is Required*";
+              // } else if (values.password.length < 6) {
+              //   errors.password = "Password Is Too Short*";
+              // }
+
+              // if (!values.passwordConfirm) {
+              //   errors.passwordConfirm = "Confirm Password Is Required*";
+              // } else if (values.password != values.passwordConfirm) {
+              //   errors.passwordConfirm = "Passwords Not Matching*";
+              // }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values);
+              console.log(state);
+              // if (values.utype == "Seller") {
+              //   navigate("/registerSeller", {state:values});
+              // } else if (values.utype == "Buyer") {
+              //   navigate("/registerBuyer", {state:values});
+              // }
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              /* and other goodies */
+            }) => (
+          <form  onSubmit={handleSubmit}>
             <div className="flex flex-wrap mx-auto mb-8 ">
               <a
                 className="
@@ -87,12 +162,16 @@ function RegisterBuyer() {
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-4 w-full group">
                 <select
+                  name="scale"
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
                   id="grid-state"
+                  onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.scale}
                 >
-                  <option>Small Scale</option>
-                  <option>Medium Scale</option>
-                  <option>Large Scale</option>
+                  <option value="Small Scale">Small Scale</option>
+                  <option value="Medium Scale">Medium Scale</option>
+                  <option value="Large Scale">Large Scale</option>
                 </select>
                 <label
                   for="floating_first_name"
@@ -128,9 +207,13 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="provide_tree_climber"
                     id="inlineRadio1"
-                    value="option1"
+                    value="true"
+                    onChange={handleChange}
+                      onBlur={handleBlur}
+                      // value={values.inlineRadioOptions}
+              
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -143,9 +226,13 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="provide_tree_climber"
                     id="inlineRadio2"
-                    value="option2"
+                    value="false"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    defaultChecked
+                      // value={values.inlineRadioOptions}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -166,9 +253,12 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="registered_business"
                     id="inlineRadio1"
-                    value="option1"
+                    value="true"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // value={values.inlineRadioOptions2}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -181,9 +271,13 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="registered_business"
                     id="inlineRadio2"
-                    value="option2"
+                    // value="option2"
+                    defaultChecked
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value="true"
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -199,11 +293,14 @@ function RegisterBuyer() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="alternative_phone"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.alternative_phone}
+                 
                 />
                 <label
                   for="floating_first_name"
@@ -215,11 +312,14 @@ function RegisterBuyer() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="alternative_phone1"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.alternative_phone1}
+                
                 />
                 <label
                   for="floating_last_name"
@@ -232,11 +332,14 @@ function RegisterBuyer() {
 
             <div className="relative z-0 mb-6 w-full group">
               <input
-                type="password"
-                name="repeat_password"
+                type="text"
+                name="nearest_city"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.nearest_city}
                 required
               />
               <label
@@ -248,11 +351,14 @@ function RegisterBuyer() {
             </div>
             <div className="relative z-0 mb-6 w-full group">
               <input
-                type="password"
-                name="repeat_password"
+                type="text"
+                name="inheritor_name"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.inheritor_name}
                 required
               />
               <label
@@ -266,10 +372,13 @@ function RegisterBuyer() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_first_name"
+                  name="inheritor_phone"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
+                  onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.inheritor_phone}
                   required
                 />
                 <label
@@ -282,11 +391,14 @@ function RegisterBuyer() {
               <div className="relative z-0 mb-6 w-full group">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="inheritor_phone_alt"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
-                  required
+                  onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.inheritor_phone_alt}
+                 
                 />
                 <label
                   for="floating_last_name"
@@ -299,11 +411,14 @@ function RegisterBuyer() {
 
             <div className="relative z-0 mb-6 w-full group">
               <input
-                type="password"
-                name="repeat_password"
+                type="text"
+                name="additional_info"
                 id="floating_repeat_password"
                 className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.additional_info}
                 required
               />
               <label
@@ -322,9 +437,12 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="receive_calls"
                     id="inlineRadio1"
-                    value="option1"
+                    value="true"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // value={values.receive_calls}
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -337,9 +455,13 @@ function RegisterBuyer() {
                   <input
                     className="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
+                    name="receive_calls"
                     id="inlineRadio2"
-                    value="option2"
+                    value="false"
+                    defaultChecked
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    
                   />
                   <label
                     className="form-check-label inline-block text-gray-800"
@@ -353,11 +475,14 @@ function RegisterBuyer() {
       
             <button
               type="submit"
+             
               className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center my-4"
             >
               Finish and Submit
             </button>
           </form>
+      )}
+      </Formik>
         </div>
       </div>
       <div className="hidden lg:flex items-center justify-center bg-green-100 flex-1 h-auto">
