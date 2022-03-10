@@ -29,6 +29,7 @@ const districts = [
 ];
 function RegisterSeller() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const location = useLocation();
   return (
     <div className="lg:flex ">
@@ -48,7 +49,7 @@ function RegisterSeller() {
             Seller
           </h2>
           <Formik
-            initialValues={{receive_emails: "false", recieve_calls: "false" }}
+            initialValues={{ scale: "Small Scale",organization_type: "None", receive_emails: "false",district: "Colombo", receive_calls: "false" }}
             validate={(values) => {
               const errors = {};
               // if (!values.fname) {
@@ -92,13 +93,54 @@ function RegisterSeller() {
               // }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               console.log(values);
-              // if (values.utype == "Seller") {
-              //   navigate("/registerSeller", {state:values});
-              // } else if (values.utype == "Buyer") {
-              //   navigate("/registerBuyer", {state:values});
-              // }
+              try {
+                const requestOptions = {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    name: state.fname+" "+state.lname,
+                    type: state.utype,
+                    email: state.email,
+                    password: state.password,
+                    mobile1: state.mobile,
+                    mobile2: state.altMobile,
+                    landLine: state.landLine,
+                    state: state.province,//province
+                    //Buyer
+                    scaleOfBusiness: values.scale,
+                    // canProvideTreeClimbers: "",
+                    // isRegisteredBusiness: "",
+                    businessName: "",
+                    alternateMobile: "",
+                    alternateMobile2: "",
+                    recieveCalls: values.receive_calls,
+                    inheritorName: values.registered_business,
+                    inheritorMobile: values.inheritor_phone,
+                    inheritorAltMobile:values.inheritor_phone_alt,
+                    aditionalInfo: values.additional_info,
+                    //seller
+                    sizeOfLand: values.total_land,
+                    yieldPerHarvest: values.yield_per_harvest,
+                    totalHarvest: values.yield_per_harvest,
+                    intervalBetweenHarvest: values.interval_between_harvests,
+                    recieveEmails: values.receive_emails,
+                    dirstrict: values.district,
+                    noOfTrees:values.total_trees,
+                    areasToCollect:values.collecting_form_area,
+                    orgType:values.organization_type,
+                    orgName:values.organization_name,
+                  }),
+                };
+                const result=await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, requestOptions);
+                if(result){
+                  navigate("/login");
+                }
+                
+              } catch (e) {
+                console.log(e);
+              }
             }}
           >
             {({
@@ -215,7 +257,7 @@ function RegisterSeller() {
               </div>
               <div className="relative z-0 mb-6 w-full group ">
                 <input
-                  type="text"
+                  type="number"
                   name="total_land"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -237,7 +279,7 @@ function RegisterSeller() {
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <input
-                  type="text"
+                  type="number"
                   name="yield_per_harvest"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -297,7 +339,7 @@ function RegisterSeller() {
               </div>
               <div className="relative z-0 mb-6 w-full group">
                 <input
-                  type="text"
+                  type="tel"
                   name="inheritor_mobile"
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -319,7 +361,7 @@ function RegisterSeller() {
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <input
-                  type="text"
+                  type="tel"
                   name="inheritor_mobile_alt"
                   id="floating_first_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -377,10 +419,14 @@ function RegisterSeller() {
             <div className="grid xl:grid-cols-2 xl:gap-6">
               <div className="relative z-0 mb-6 w-full group">
                 <select
+                  name="organization_type"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.organization_type}
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 mt-5 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
                   id="grid-state"
                 >
-                  <option>None</option>
+                  <option defaultChecked>None</option>
                   <option>Private</option>
                   <option>Public</option>
                   <option>Church</option>
@@ -396,7 +442,10 @@ function RegisterSeller() {
               <div className="relative z-0 mb-6 w-full group mt-4">
                 <input
                   type="text"
-                  name="floating_last_name"
+                  name="organization_name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.organization_name}
                   id="floating_last_name"
                   className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "

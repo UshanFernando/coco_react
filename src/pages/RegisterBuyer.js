@@ -156,8 +156,7 @@ function RegisterBuyer(params) {
               return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
-              console.log(values);
-              console.log(state);
+         
               try {
                 const requestOptions = {
                   method: "POST",
@@ -190,10 +189,16 @@ function RegisterBuyer(params) {
                     intervalBetweenHarvest: "",
                     recieveEmails: "",
                     dirstrict: "",
+                    noOfTrees:"",
+                    areasToCollect:"",
+                    orgType:"",
+                    orgName:"",
                   }),
                 };
                 const result=await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, requestOptions);
-                console.log(result);
+                if(result){
+                  navigate("/login");
+                }
                 
               } catch (e) {
                 console.log(e);
