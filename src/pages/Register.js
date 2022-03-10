@@ -2,8 +2,11 @@ import { ArrowCircleRightIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useState } from "react";
 function Register() {
   const navigate = useNavigate();
+
+  const [emailError, setEmailError] = useState("")
 
   const toreg2 = () => {
     navigate("/register2", { state: { id: 1, name: "sabaoon" } });
@@ -65,13 +68,41 @@ function Register() {
               }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              console.log("submitted");
-              if (values.utype == "Seller") {
-                navigate("/registerSeller", {state:values});
-              } else if (values.utype == "Buyer") {
-                navigate("/registerBuyer", {state:values});
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                const requestOptions = {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    name: values.fname+" "+values.lname,
+                      type: values.utype,
+                      email: values.email,
+                      password: values.password,
+                      mobile1: values.mobile,
+                      mobile2: values.altMobile,
+                      landLine: values.landLine,
+                      state: values.province
+                   
+                  }),
+                };
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/initial-validate`, requestOptions).then((res) => res.json())
+                .then((item) => {
+                  console.log(item);
+                  if( "errors" in item && "email" in item.errors){
+                    setEmailError(item.errors.email);
+                  }else if("success" in item){
+                    if (values.utype == "Seller") {
+                        navigate("/registerSeller", {state:values});
+                      } else if (values.utype == "Buyer") {
+                        navigate("/registerBuyer", {state:values});
+                      }
+                  }
+                });
+              } catch (error) {
+                console.log(error)
               }
+              
+              // 
             }}
           >
             {({
@@ -324,6 +355,8 @@ function Register() {
                       }`}
                       placeholder=" "
                     />
+                    {emailError ? (<p className="text-red-500">{emailError} !</p>):null}
+                    
                     <label
                       for="floating_last_name"
                       class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
