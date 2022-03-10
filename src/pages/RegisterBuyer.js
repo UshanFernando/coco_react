@@ -111,7 +111,7 @@ function RegisterBuyer(params) {
             Buyer
           </h2>
           <Formik
-            initialValues={{ registered_business: "false", provide_tree_climber: "false", receive_calls: "false" }}
+            initialValues={{scale: "Small Scale", registered_business: "false", provide_tree_climber: "false", receive_calls: "false" }}
             validate={(values) => {
               const errors = {};
               // if (!values.fname) {
