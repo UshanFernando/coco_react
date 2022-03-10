@@ -117,6 +117,7 @@ function SearchBuyers() {
                   district={e.dirstrict}
                   scale={e.scaleOfBusiness}
                   rating={i}
+                  id={e.id}
                 />
               );
             })

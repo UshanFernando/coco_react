@@ -1,9 +1,9 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 
-function ListItemBuyer({ name, district, scale, price, rating }) {
+function ListItemBuyer({ name, district, scale, price, rating, id }) {
   return (
-    <a href="/viewBuyer">
+    <a href={"/viewBuyer" + id}>
       <div className="flex justify-center mb-4 hover:cursor-pointer">
         <div class="flex flex-col p-4 sm:p-0 sm:flex-row w-screen sm:w-2/4 rounded-lg  shadow-lg lg:h-32 md:h-40">
           <img
@@ -32,6 +32,7 @@ function ListItemBuyer({ name, district, scale, price, rating }) {
                 activeColor="#ffd700"
               />
             </div>
+            
           </div>
         </div>
       </div>

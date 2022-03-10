@@ -2,12 +2,20 @@ import { ScaleIcon } from "@heroicons/react/solid";
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 
+import { useParams } from 'react-router';
+
+
+
 const styles = {
   detailName: "text-xl  col-span-3",
   detailValue: "text-xl col-span-2",
 };
 
 function BuyerDetails() {
+  const { id } = useParams();
+
+  console.log(id);
+  
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">
       <main class="flex items-center p-10 sm:px-0 w-full h-full bg-white">

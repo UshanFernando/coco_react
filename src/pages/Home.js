@@ -1,13 +1,16 @@
 import React from "react";
 import CountUp from "react-countup";
 import ListItemBuyer from "../components/ListItemBuyer";
+import Logo from "../assets/logo.jpg"
 function Home() {
   return (
     <div className="w-screen h-screen ">
       <div className="h-20"></div>
       <div class="relative z-0 h-2/3  self-center object-cover  justify-items-start border rounded-3xl shadow-lg overflow-hidden  mx-20 ">
         <div class="absolute inset-0 flex flex-col justify-items-center justify-center  z-10 h-auto  bg-slate-700/50 ">
-          <p class="text-6xl font-bold text-white text-center">පොල් මුරේ</p>
+          {/* <p class="text-6xl font-bold text-white text-center">පොල් මුරේ</p> */}
+
+          <img className="h-48 w-64 object-cover mx-auto rounded-2xl shadow-lg" src={Logo}></img>
           <h3 class="text-3xl font-bold text-gray-200 text-center mt-5">
             Online Platform for buy and sell coconuts in Sri Lanka
           </h3>
