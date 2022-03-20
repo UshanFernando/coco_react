@@ -69,6 +69,30 @@ function Search() {
   const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
   const [selectedScale, setSelectedScale] = useState(scale[0]);
   const [selectedSorting, setSelectedSorting] = useState(districts[0]);
+  const [sellers, setSellers] = useState([]);
+
+  useEffect(() => {
+    fetchSellers();
+  }, [])
+  
+  const fetchSellers = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/sellers`)
+        .then(function (response) {
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          setSellers(res.sellers);
+
+        })
+
+    } catch (e) {
+      //if failed to communicate with api this code block will run
+      console.log(e);
+    }
+  };
+
   return (
     <div>
       <AdvertistmentCarousel />
