@@ -11,6 +11,9 @@ const styles = {
 function SellerDetails() {
   const { id } = useParams();
   const [seller, setSeller] = useState({});
+  const [errorMessage, setErrors] = useState({});
+  const [successMessage, setSuccess] = useState(null);
+  const [bidAmount, setBidAmount] = useState({});
 
   useEffect(() => {
     fetchSeller();
@@ -24,13 +27,49 @@ function SellerDetails() {
         .then((res) => {
           console.log(res);
           setSeller(res.sellers);
-
         })
 
     } catch (e) {
       //if failed to communicate with api this code block will run
       console.log(e);
     }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+  
+      try {
+        const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            buyerName: "question",
+            buyerId: "question",
+            sellerId: seller._id,
+            sellerName: seller.name,
+            amount:bidAmount,
+          }),
+        };
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/bids/add`, requestOptions).then(function (response) {
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          if(res.errors!=null || res.errors!=undefined){
+            setErrors(res.errors);
+          }else{
+            const msg={
+              success: "Bid Successfully Placed",
+            }
+            setErrors(msg);
+            setBidAmount("");
+          }
+        })
+        
+      } catch (e) {
+        console.log(e);
+      }
+    
   };
 
   return (
@@ -46,11 +85,15 @@ function SellerDetails() {
                 <div className={styles.detailName}>
                   <span>Scale</span>
                 </div>
-                <div className={styles.detailValue}>{seller.scaleOfBusiness}</div>
+                <div className={styles.detailValue}>
+                  {seller.scaleOfBusiness}
+                </div>
                 <div className={styles.detailName}>
                   Average Yeld per Harvest
                 </div>
-                <div className={styles.detailValue}>{seller.yieldPerHarvest}</div>
+                <div className={styles.detailValue}>
+                  {seller.yieldPerHarvest}
+                </div>
 
                 <div className={styles.detailName}>District</div>
                 <div className={styles.detailValue}>{seller.district}</div>
@@ -59,7 +102,9 @@ function SellerDetails() {
                 <div className={styles.detailValue}>{seller.nearestCity}</div>
 
                 <div className={styles.detailName}>Interval During Harvest</div>
-                <div className={styles.detailValue}>{seller.intervalBetweenHarvest} month</div>
+                <div className={styles.detailValue}>
+                  {seller.intervalBetweenHarvest} month
+                </div>
 
                 <div className={styles.detailName}>Last Harvest</div>
                 <div className={styles.detailValue}>2022/01/12</div>
@@ -79,6 +124,9 @@ function SellerDetails() {
                 <div className={styles.detailName}>Availability Status</div>
                 <div className={styles.detailValue}>High</div>
               </div>
+              {errorMessage.amount!=null ?<strong className="text-red-500 text-sm">{errorMessage.amount}</strong>:null}
+              {errorMessage.bid!=null ?<strong className="text-red-500 text-sm">{errorMessage.bid}</strong>:null}
+              {errorMessage.success!=null ?<strong className="text-green-500 text-sm">{errorMessage.success}</strong>:null}
               <div className="grid grid-cols-5 gap-2 p-4 bg-green-100 mt-5 rounded-xl shadow-sm">
                 <div className={styles.detailName}>Highest Bid</div>
                 <div className={styles.detailValue + " font-bold"}>27,450</div>
@@ -115,14 +163,18 @@ function SellerDetails() {
       "
                   id="exampleNumber0"
                   placeholder="0,00"
+                  value={bidAmount}
+                  onChange={(e) => setBidAmount(e.target.value)}
                 />
                 <button
                   type="button"
+                  onClick={(e) => onSubmit(e)}
                   className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
                 >
                   Bid
                 </button>
               </div>
+              
             </div>
           </div>
           <div class="flex flex-col col-span-2 justify-start order-first lg:order-last md:order-first mt-10 ml-10 md:mx-auto">
