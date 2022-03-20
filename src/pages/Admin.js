@@ -3,7 +3,7 @@ import {
   ArrowRightIcon,
   SearchIcon,
 } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 
 function Admin() {
@@ -11,6 +11,28 @@ function Admin() {
   const handleSidebar = () => {
     setIsOpened(!isOpened);
   };
+
+  const [buyers, setBuyers] = useState(null);
+
+  const loadBuyers = () => {
+    fetch(`http://localhost:5000/api/users/buyers`, {
+      method: "GET",
+      headers: new Headers({
+        Accept: "application/vnd.github.cloak-preview",
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setBuyers(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    loadBuyers();
+  }, []);
+
   return (
     <div className="h-screen flex">
       <AdminSidebar
@@ -69,125 +91,91 @@ function Admin() {
               </select>
             </div>
           </div>
-          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 p-4">
-            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-              <div class="overflow-hidden">
-                <table class="min-w-full">
-                  <thead class="border-b">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        #
-                      </th>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        First Name
-                      </th>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Last Name
-                      </th>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Scale
-                      </th>
-                      <th
-                        scope="col"
-                        class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="border-b">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        1
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Mark
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Otto
-                      </td>
-                      <td class="text-sm  px-6 py-4 whitespace-nowrap font-bold text-green-600">
-                        Active
-                      </td>{" "}
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Large
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/buyerAccount">
-                          {" "}
-                          Change Status
-                        </a>
-                      </td>
-                    </tr>
-                    <tr class="bg-white border-b">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        2
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Jacob
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Thornton
-                      </td>
-                      <td class="text-sm  px-6 py-4 whitespace-nowrap font-bold text-green-600">
-                        Active
-                      </td>{" "}
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Large
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <a className="bg-red-500 p-2 text-white rounded-xl" href="/buyerAccount">
-                          {" "}
-                          Change Status
-                        </a>
-                      </td>
-                    </tr>
-                    <tr class="bg-white border-b">
-                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        3
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Larry
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Wild
-                      </td>
-                      <td class="text-sm  px-6 py-4 whitespace-nowrap font-bold text-green-600">
-                        Active
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        Large
-                      </td>
-                      <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        <button className="bg-red-500 p-2 text-white rounded-xl">
-                          {" "}
-                          Change Status
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          {buyers ? (
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 p-4">
+              <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden">
+                  <table class="min-w-full">
+                    <thead class="border-b">
+                      <tr>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          #
+                        </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Name
+                        </th>
+
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Status
+                        </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Scale
+                        </th>
+                        <th
+                          scope="col"
+                          class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                        >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {buyers.map((e, i) => {
+                        return (
+                          <tr class="border-b">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              {i + 1}
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {e.name}
+                            </td>
+                            <td class="text-sm  px-6 py-4 whitespace-nowrap font-bold text-green-600">
+                              {e.accountStatus ? e.accountStatus : "Listed"}
+                            </td>{" "}
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {e.scaleOfBusiness}
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              <a
+                                className="bg-red-500 p-2 text-white rounded-xl"
+                                href="/buyerAccount"
+                              >
+                                {" "}
+                                Change Status
+                              </a>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <center>
+              <div class="flex justify-center items-center mt-32">
+                <div
+                  class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </center>
+          )}
         </div>
       </div>
     </div>

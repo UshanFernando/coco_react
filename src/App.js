@@ -24,6 +24,9 @@ import PostAdBuyer from "./pages/PostAdBuyer";
 import PostAdSeller from "./pages/PostAdSeller";
 import MyOffers from "./pages/MyOffers";
 import OfferDetails from "./pages/OfferDetails";
+import Auth from "./Authentication/Auth";
+import { RequireAuth } from "./components/RequiredAuth";
+import { RequireAdmin } from "./components/RequiredAdmin";
 
 function App() {
   return (
@@ -40,13 +43,20 @@ function App() {
             <Route path="/buyers" element={<SearchBuyers />} />
           </Route>
           <Route element={<WithNav />}>
-            <Route path="/viewSeller" element={<SellerDetails />} />
+            <Route path="/viewSeller:id" element={<SellerDetails />} />
           </Route>
           <Route element={<WithNav />}>
             <Route path="/viewBuyer:id" element={<BuyerDetails />} />
           </Route>
           <Route element={<WithNav />}>
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/admin"
+              element={
+                <RequireAdmin redirectTo="/">
+                  <Admin />
+                </RequireAdmin>
+              }
+            />
           </Route>
           <Route element={<WithNav />}>
             <Route path="/adminSellers" element={<AdminSellers />} />
@@ -67,11 +77,11 @@ function App() {
             <Route path="/registerSeller" element={<RegisterSeller />} />
           </Route>
           <Route element={<WithNav />}>
-            <Route path="/buyerAccount" element={<BuyerAccount />} />
+            <Route path="/buyerAccount:id" element={<BuyerAccount />} />
           </Route>
 
           <Route element={<WithNav />}>
-            <Route path="/sellerAccount" element={<SellerAccount />} />
+            <Route path="/sellerAccount:id" element={<SellerAccount />} />
           </Route>
 
           <Route element={<WithNav />}>

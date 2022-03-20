@@ -5,7 +5,7 @@ const getToken = () => {
 const getUserLevel = () => {
     if (isAuthenticated()) {
         const user = parseJwt(getToken());
-        return user.role;
+        return user.type;
     }
 }
 

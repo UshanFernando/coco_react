@@ -15,9 +15,10 @@ function ListItemBuyer({ name, district, scale, price, rating, id }) {
             <h5 class="text-gray-900 text-lg font-semibold ">{name}</h5>
             <h5 class="text-gray-900 text-base font-medium ">{price}</h5>
 
-            <h5 class="text-gray-900 text-base  font-medium flex">
+            {district? <h5 class="text-gray-900 text-base  font-medium flex">
               <span className="font-semibold">District:</span> &nbsp;{district}
-            </h5>
+            </h5>:null}
+            
             <h5 class="text-gray-900 text-base  font-medium flex ">
               <span className="font-semibold">Scale : </span> &nbsp; {scale}
             </h5>
@@ -32,7 +33,7 @@ function ListItemBuyer({ name, district, scale, price, rating, id }) {
                 activeColor="#ffd700"
               />
             </div>
-            
+
           </div>
         </div>
       </div>

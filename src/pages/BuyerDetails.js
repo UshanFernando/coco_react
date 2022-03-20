@@ -1,10 +1,8 @@
 import { ScaleIcon } from "@heroicons/react/solid";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 
-import { useParams } from 'react-router';
-
-
+import { useParams } from "react-router";
 
 const styles = {
   detailName: "text-xl  col-span-3",
@@ -14,92 +12,139 @@ const styles = {
 function BuyerDetails() {
   const { id } = useParams();
 
-  console.log(id);
+  const [buyerDetails, setBuyerDetails] = useState(false);
   
+
+  const loadBuyerDetails = () => {
+    console.log(id);
+    fetch(`http://localhost:5000/api/users/buyerDetails`, {
+      method: "POST",
+      headers: new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({ id: id }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setBuyerDetails(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    loadBuyerDetails();
+  }, []);
+
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">
       <main class="flex items-center p-10 sm:px-0 w-full h-full bg-white">
         <div class="border-t border-b pt-16 grid lg:grid-cols-5 md:grid-cols-1 gap-8">
           <div class="flex flex-col col-span-3">
-            <div class="flex flex-col gap-2">
-              <h1 class="capitalize text-4xl font-extrabold ">
-                Buyer Name Here
-              </h1>
-              <h1 class="capitalize text-xl font-semibold mt-4 ml-2 ">
-                Asking Price : 220.00 Rs
-              </h1>
-              <h1 class="capitalize text-xl font-semibold mb-5 ml-2 ">
-                Offer Price &nbsp;&nbsp;&nbsp;: 250.00 Rs
-              </h1>
-              <h1 class="capitalize text-xl font-semibold ml-2 ">Ratings</h1>
-              <div className="grid grid-cols-5 gap-2 ml-2">
-                <div className={styles.detailName}>
-                  <span>Price</span>
-                </div>
-                <div className={styles.detailValue}>
-                  {" "}
-                  <ReactStars
-                    count={5}
-                    // onChange={ratingChanged}
-                    edit={false}
-                    value={4}
-                    size={24}
-                    activeColor="#ffd700"
-                  />
-                </div>
+            {buyerDetails ? (
+              <div class="flex flex-col gap-2">
+                <h1 class="capitalize text-3xl font-bold ">
+                  {buyerDetails.buyerName}
+                </h1>
+                <h1 class="capitalize text-xl font-semibold mt-4 ml-2 ">
+                  Asking Price :{" "}
+                  {buyerDetails.ratings && buyerDetails.ratings.askingPrice
+                    ? buyerDetails.ratings.askingPrice
+                    : "Not Mentioned"}
+                </h1>
+                <h1 class="capitalize text-xl font-semibold mb-5 ml-2 ">
+                  Offer Price &nbsp;&nbsp;&nbsp;: 250.00 Rs
+                </h1>
+                <h1 class="capitalize text-xl font-semibold ml-2 ">Ratings</h1>
+                <div className="grid grid-cols-5 gap-2 ml-2">
+                  <div className={styles.detailName}>
+                    <span>Price</span>
+                  </div>
+                  <div className={styles.detailValue}>
+                    {" "}
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      edit={false}
+                      value={
+                        buyerDetails.ratings && buyerDetails.ratings.priceRating
+                          ? buyerDetails.ratings.priceRating
+                          : 0
+                      }
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                  </div>
 
-                <div className={styles.detailName}>Selection</div>
-                <div className={styles.detailValue}>
-                  {" "}
-                  <ReactStars
-                    count={5}
-                    // onChange={ratingChanged}
-                    edit={false}
-                    value={3}
-                    size={24}
-                    activeColor="#ffd700"
-                  />
-                </div>
+                  <div className={styles.detailName}>Selection</div>
+                  <div className={styles.detailValue}>
+                    {" "}
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      edit={false}
+                      value={
+                        buyerDetails.ratings &&
+                        buyerDetails.ratings.selectionRating
+                          ? buyerDetails.ratings.selectionRating
+                          : 0
+                      }
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                  </div>
 
-                <div className={styles.detailName}>Punctuality</div>
-                <div className={styles.detailValue}>
-                  {" "}
-                  <ReactStars
-                    count={5}
-                    // onChange={ratingChanged}
-                    edit={false}
-                    value={5}
-                    size={24}
-                    activeColor="#ffd700"
-                  />
-                </div>
+                  <div className={styles.detailName}>Punctuality</div>
+                  <div className={styles.detailValue}>
+                    {" "}
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      edit={false}
+                      value={
+                        buyerDetails.ratings &&
+                        buyerDetails.ratings.punctualityRating
+                          ? buyerDetails.ratings.punctualityRating
+                          : 0
+                      }
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                  </div>
 
-                <div className={styles.detailName}>Professionalism</div>
-                <div className={styles.detailValue}>
-                  {" "}
-                  <ReactStars
-                    count={5}
-                    // onChange={ratingChanged}
-                    edit={false}
-                    value={1}
-                    size={24}
-                    activeColor="#ffd700"
-                  />
+                  <div className={styles.detailName}>Professionalism</div>
+                  <div className={styles.detailValue}>
+                    {" "}
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      edit={false}
+                      value={
+                        buyerDetails.professionalisRating &&
+                        buyerDetails.ratings.professionalisRating
+                          ? buyerDetails.ratings.professionalisRating
+                          : 0
+                      }
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-5 gap-2 p-4 bg-green-100 mt-5 rounded-xl shadow-sm">
-              
-                <div className={styles.detailName+ " font-semibold"}>Contact Number</div>
-                <div className={styles.detailValue + " font-bold"}>
-                  076 7678 389
-                </div>
-                <div className={styles.detailName + " mt-5 font-semibold"}>
-                  Offer
-                </div>
+                <div className="grid grid-cols-5 gap-2 p-4 bg-green-100 mt-5 rounded-xl shadow-sm">
+                  <div className={styles.detailName + " font-semibold"}>
+                    Contact Number
+                  </div>
+                  <div className={styles.detailValue + " font-bold"}>
+                    {buyerDetails.phone}
+                  </div>
+                  <div className={styles.detailName + " mt-5 font-semibold"}>
+                    Offer
+                  </div>
 
-                <input
-                  type="number"
-                  className="
+                  <input
+                    type="number"
+                    className="
                     -ml-2
                     mt-2
         form-control
@@ -119,17 +164,30 @@ function BuyerDetails() {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-                  id="exampleNumber0"
-                  placeholder="0,00"
-                />
-                <button
-                  type="button"
-                  className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
-                >
-                  Confirm
-                </button>
+                    id="exampleNumber0"
+                    placeholder="0,00"
+                  />
+                  <button
+                    type="button"
+                    className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
+                  >
+                    Confirm
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <center>
+                <div class="flex justify-center items-center mt-32">
+                  <div
+                    class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <h1 className="text-2xl mt-10">Please Wait....</h1>
+              </center>
+            )}
           </div>
           <div class="flex flex-col col-span-2 justify-start order-first lg:order-last md:order-first mt-10 ml-10 md:mx-auto">
             <div

@@ -320,9 +320,9 @@ function Nav() {
           text-gray-700
           hover:bg-gray-100
         "
-                  href="#"
+                  href="/postAdSeller"
                 >
-                  Action
+                 Publish Ad
                 </a>
               </li>
               <li>
