@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment,useEffect } from "react";
 import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
 import ListItemSeller from "../components/ListItemSeller";
 
@@ -48,6 +48,30 @@ function Search() {
   const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
   const [selectedScale, setSelectedScale] = useState(scale[0]);
   const [selectedSorting, setSelectedSorting] = useState(districts[0]);
+  const [sellers, setSellers] = useState([]);
+
+  useEffect(() => {
+    fetchSellers();
+  }, [])
+  
+  const fetchSellers = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/sellers`)
+        .then(function (response) {
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          setSellers(res.sellers);
+
+        })
+
+    } catch (e) {
+      //if failed to communicate with api this code block will run
+      console.log(e);
+    }
+  };
+
   return (
     <div>
       <AdvertistmentCarousel />
@@ -85,10 +109,11 @@ function Search() {
         </div>
 
         <div className="container py-4 mt-4">
-          <ListItemSeller name={"John Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={3}/>
-          <ListItemSeller name={"Nimal Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={4}/>
-          <ListItemSeller name={"Kasun Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={5}/>
-          <ListItemSeller name={"Dinith Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={2}/>
+          {
+            sellers.map((seller) => {
+              return <ListItemSeller name={seller.name} id={seller._id} price={"120.00 Rs"} district={seller.district} scale={"Large"} rating={3}/>
+            })
+          }
         </div>
       </div>
     </div>

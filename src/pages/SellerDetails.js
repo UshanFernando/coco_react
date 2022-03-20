@@ -1,5 +1,6 @@
 import { ScaleIcon } from "@heroicons/react/solid";
-import React from "react";
+import {useParams} from "react-router-dom";
+import {React,useEffect,useState} from "react";
 import ReactStars from "react-rating-stars-component";
 
 const styles = {
@@ -8,6 +9,30 @@ const styles = {
 };
 
 function SellerDetails() {
+  const { id } = useParams();
+  const [seller, setSeller] = useState({});
+
+  useEffect(() => {
+    fetchSeller();
+  }, [])
+  const fetchSeller = async () => {
+    try {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/seller?userId=${id}`)
+        .then(function (response) {
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          setSeller(res.sellers);
+
+        })
+
+    } catch (e) {
+      //if failed to communicate with api this code block will run
+      console.log(e);
+    }
+  };
+
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">
       <main class="flex items-center p-10 sm:px-0 w-full h-full bg-white">
@@ -15,26 +40,26 @@ function SellerDetails() {
           <div class="flex flex-col col-span-3">
             <div class="flex flex-col gap-4">
               <h1 class="capitalize text-4xl font-extrabold mb-5 ">
-                Seller Name Here
+                {seller.name}
               </h1>
               <div className="grid grid-cols-5 gap-2 ml-2">
                 <div className={styles.detailName}>
                   <span>Scale</span>
                 </div>
-                <div className={styles.detailValue}>Large</div>
+                <div className={styles.detailValue}>{seller.scaleOfBusiness}</div>
                 <div className={styles.detailName}>
                   Average Yeld per Harvest
                 </div>
-                <div className={styles.detailValue}>2,500</div>
+                <div className={styles.detailValue}>{seller.yieldPerHarvest}</div>
 
                 <div className={styles.detailName}>District</div>
-                <div className={styles.detailValue}>Colombo</div>
+                <div className={styles.detailValue}>{seller.district}</div>
 
                 <div className={styles.detailName}>City</div>
-                <div className={styles.detailValue}>Malabe</div>
+                <div className={styles.detailValue}>{seller.nearestCity}</div>
 
                 <div className={styles.detailName}>Interval During Harvest</div>
-                <div className={styles.detailValue}>6 month</div>
+                <div className={styles.detailValue}>{seller.intervalBetweenHarvest} month</div>
 
                 <div className={styles.detailName}>Last Harvest</div>
                 <div className={styles.detailValue}>2022/01/12</div>

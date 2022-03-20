@@ -1,9 +1,9 @@
 import React from "react";
 import ReactStars from "react-rating-stars-component";
 
-function ListItemSeller({ name, district, scale, price, rating }) {
+function ListItemSeller({ name,id ,district, scale, price, rating }) {
   return (
-    <a href="/viewSeller">
+    <a href={`/viewSeller/${id}`}>
       <div className="flex justify-center mb-4  hover:cursor-pointer ">
         <div class="flex flex-col p-4 sm:p-0 sm:flex-row w-screen sm:w-2/4 rounded-lg  shadow-lg lg:h-32 md:h-40 hover:shadow-xl">
           <img

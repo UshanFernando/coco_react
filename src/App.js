@@ -40,7 +40,7 @@ function App() {
             <Route path="/buyers" element={<SearchBuyers />} />
           </Route>
           <Route element={<WithNav />}>
-            <Route path="/viewSeller" element={<SellerDetails />} />
+            <Route path="/viewSeller/:id" element={<SellerDetails />} />
           </Route>
           <Route element={<WithNav />}>
             <Route path="/viewBuyer" element={<BuyerDetails />} />
