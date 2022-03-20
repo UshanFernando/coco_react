@@ -1,7 +1,7 @@
 import { ScaleIcon } from "@heroicons/react/solid";
-import {useParams} from "react-router-dom";
-import {React,useEffect,useState} from "react";
+import React, { useState, useEffect } from "react";
 import ReactStars from "react-rating-stars-component";
+import { useParams } from "react-router-dom";
 
 const styles = {
   detailName: "text-xl font-semibold col-span-3",
@@ -9,31 +9,32 @@ const styles = {
 };
 
 function SellerDetails() {
+  const [sellerDetails, setSellerDetails] = useState(false);
   const { id } = useParams();
   const [seller, setSeller] = useState({});
   const [errorMessage, setErrors] = useState({});
   const [successMessage, setSuccess] = useState(null);
   const [bidAmount, setBidAmount] = useState({});
 
-  useEffect(() => {
-    fetchSeller();
-  }, [])
-  const fetchSeller = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/seller?userId=${id}`)
-        .then(function (response) {
-          return response.json();
-        })
-        .then((res) => {
-          console.log(res);
-          setSeller(res.sellers);
-        })
+  // useEffect(() => {
+  //   fetchSeller();
+  // }, [])
+  // const fetchSeller = async () => {
+  //   try {
+  //     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/seller?userId=${id}`)
+  //       .then(function (response) {
+  //         return response.json();
+  //       })
+  //       .then((res) => {
+  //         console.log(res);
+  //         setSeller(res.sellers);
+  //       })
 
-    } catch (e) {
-      //if failed to communicate with api this code block will run
-      console.log(e);
-    }
-  };
+  //   } catch (e) {
+  //     //if failed to communicate with api this code block will run
+  //     console.log(e);
+  //   }
+  // };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -72,76 +73,97 @@ function SellerDetails() {
     
   };
 
+  const loadSellerDetails = () => {
+    console.log(id);
+    fetch(`http://localhost:5000/api/users/sellerDetails`, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ id: id }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setSellerDetails(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    loadSellerDetails();
+  }, []);
+
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">
       <main class="flex items-center p-10 sm:px-0 w-full h-full bg-white">
         <div class="border-t border-b pt-16 grid lg:grid-cols-5 md:grid-cols-1 gap-8">
           <div class="flex flex-col col-span-3">
-            <div class="flex flex-col gap-4">
-              <h1 class="capitalize text-4xl font-extrabold mb-5 ">
-                {seller.name}
-              </h1>
-              <div className="grid grid-cols-5 gap-2 ml-2">
-                <div className={styles.detailName}>
-                  <span>Scale</span>
-                </div>
-                <div className={styles.detailValue}>
-                  {seller.scaleOfBusiness}
-                </div>
-                <div className={styles.detailName}>
-                  Average Yeld per Harvest
-                </div>
-                <div className={styles.detailValue}>
-                  {seller.yieldPerHarvest}
-                </div>
+            {sellerDetails ? (
+              <div class="flex flex-col gap-4">
+                <h1 class="capitalize text-4xl font-extrabold mb-5 ">
+                 {sellerDetails.name}
+                </h1>
+                <div className="grid grid-cols-5 gap-2 ml-2">
+                  <div className={styles.detailName}>
+                    <span>Scale</span>
+                  </div>
+                  <div className={styles.detailValue}>  {sellerDetails.scaleOfBusiness}</div>
+                  <div className={styles.detailName}>
+                    Average Yeld per Harvest
+                  </div>
+                  <div className={styles.detailValue}>{sellerDetails.yieldPerHarvest}</div>
 
-                <div className={styles.detailName}>District</div>
-                <div className={styles.detailValue}>{seller.district}</div>
+                  <div className={styles.detailName}>District</div>
+                  <div className={styles.detailValue}>{sellerDetails.dirstrict}</div>
 
-                <div className={styles.detailName}>City</div>
-                <div className={styles.detailValue}>{seller.nearestCity}</div>
+                  <div className={styles.detailName}>City</div>
+                  <div className={styles.detailValue}>{sellerDetails.nearestCity}</div>
 
-                <div className={styles.detailName}>Interval During Harvest</div>
-                <div className={styles.detailValue}>
-                  {seller.intervalBetweenHarvest} month
+                  <div className={styles.detailName}>
+                    Interval During Harvest
+                  </div>
+                  <div className={styles.detailValue}>{sellerDetails.intervalBetweenHarvest} month</div>
+
+                  <div className={styles.detailName}>Last Harvest</div>
+                  <div className={styles.detailValue}>---</div>
+
+                  <div className={styles.detailName}>Seller Rating</div>
+                  <div className={styles.detailValue}>
+                    <ReactStars
+                      count={5}
+                      // onChange={ratingChanged}
+                      edit={false}
+                      value={sellerDetails.rating?sellerDetails.rating:0}
+                      size={24}
+                      activeColor="#ffd700"
+                    />
+                  </div>
+
+                  <div className={styles.detailName}>Availability Status</div>
+                  <div className={styles.detailValue}>{sellerDetails.availability?sellerDetails.availability:"---"}</div>
                 </div>
-
-                <div className={styles.detailName}>Last Harvest</div>
-                <div className={styles.detailValue}>2022/01/12</div>
-
-                <div className={styles.detailName}>Seller Rating</div>
-                <div className={styles.detailValue}>
-                  <ReactStars
-                    count={5}
-                    // onChange={ratingChanged}
-                    edit={false}
-                    value={4}
-                    size={24}
-                    activeColor="#ffd700"
-                  />
-                </div>
-
-                <div className={styles.detailName}>Availability Status</div>
-                <div className={styles.detailValue}>High</div>
-              </div>
-              {errorMessage.amount!=null ?<strong className="text-red-500 text-sm">{errorMessage.amount}</strong>:null}
+                {errorMessage.amount!=null ?<strong className="text-red-500 text-sm">{errorMessage.amount}</strong>:null}
               {errorMessage.bid!=null ?<strong className="text-red-500 text-sm">{errorMessage.bid}</strong>:null}
               {errorMessage.success!=null ?<strong className="text-green-500 text-sm">{errorMessage.success}</strong>:null}
-              <div className="grid grid-cols-5 gap-2 p-4 bg-green-100 mt-5 rounded-xl shadow-sm">
-                <div className={styles.detailName}>Highest Bid</div>
-                <div className={styles.detailValue + " font-bold"}>27,450</div>
+                <div className="grid grid-cols-5 gap-2 p-4 bg-green-100 mt-5 rounded-xl shadow-sm">
+                  <div className={styles.detailName}>Highest Bid</div>
+                  <div className={styles.detailValue + " font-bold"}>
+                  {sellerDetails.highestBid?sellerDetails.highestBid:"---"}
+                  </div>
 
-                <div className={styles.detailName}>Contact Number</div>
-                <div className={styles.detailValue + " font-bold"}>
-                  076 7678 389
-                </div>
-                <div className={styles.detailName + " mt-5"}>
-                  Place Your Bid
-                </div>
+                  <div className={styles.detailName}>Contact Number</div>
+                  <div className={styles.detailValue + " font-bold"}>
+                  {sellerDetails.mobile1?sellerDetails.mobile1:0}
+                  </div>
+                  <div className={styles.detailName + " mt-5"}>
+                    Place Your Bid
+                  </div>
 
-                <input
-                  type="number"
-                  className="
+                  <input
+                    type="number"
+                    className="
                     -ml-2
                     mt-2
         form-control
@@ -161,21 +183,33 @@ function SellerDetails() {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
       "
-                  id="exampleNumber0"
-                  placeholder="0,00"
                   value={bidAmount}
                   onChange={(e) => setBidAmount(e.target.value)}
-                />
-                <button
-                  type="button"
+                    id="exampleNumber0"
+                    placeholder="0,00"
+                  />
+                  <button
                   onClick={(e) => onSubmit(e)}
-                  className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
-                >
-                  Bid
-                </button>
+                    type="button"
+                    className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
+                  >
+                    Bid
+                  </button>
+                </div>
               </div>
-              
-            </div>
+            ) : (
+              <center>
+                <div class="flex justify-center items-center mt-32">
+                  <div
+                    class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                    role="status"
+                  >
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <h1 className="text-2xl mt-10">Please Wait....</h1>
+              </center>
+            )}
           </div>
           <div class="flex flex-col col-span-2 justify-start order-first lg:order-last md:order-first mt-10 ml-10 md:mx-auto">
             <div

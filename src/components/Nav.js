@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
+import Logo from "../assets/logo_small.jpg"
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,8 +75,8 @@ function Nav() {
             href="home"
           >
             <img
-              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
-              style={{ height: 15 }}
+              src={Logo}
+              style={{ height: 35 }}
               alt=""
               loading="lazy"
             />
@@ -319,9 +320,9 @@ function Nav() {
           text-gray-700
           hover:bg-gray-100
         "
-                  href="#"
+                  href="/postAdSeller"
                 >
-                  Action
+                 Publish Ad
                 </a>
               </li>
               <li>

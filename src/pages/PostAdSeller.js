@@ -24,45 +24,13 @@ function PostAdSeller() {
             initialValues={{ email: "", password: "" }}
             validate={(values) => {
               const errors = {};
-              if (!values.fname) {
-                errors.fname = "First Name is Required*";
+              if (!values.days) {
+                errors.days = "Number of days is Required*";
               }
-              if (!values.lname) {
-                errors.lname = "Last Name is Required*";
-              }
-              if (!values.utype || values.utype == "Select") {
-                errors.utype = "Please Select Buyer or Seller*";
-              }
-              if (!values.province || values.province == "Select") {
-                errors.province = "Please Select Province*";
-              }
-              if (!values.mobile) {
-                errors.mobile = "Mobile Number is Required*";
+              if (!values.price) {
+                errors.price = "Price is Required*";
               }
 
-              if (!values.landLine) {
-                errors.landLine = "Land Line is Required*";
-              }
-
-              //email
-              if (!values.email) {
-                errors.email = "Email is Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
-              }
-              if (!values.password) {
-                errors.password = "Password Is Required*";
-              } else if (values.password.length < 6) {
-                errors.password = "Password Is Too Short*";
-              }
-
-              if (!values.passwordConfirm) {
-                errors.passwordConfirm = "Confirm Password Is Required*";
-              } else if (values.password != values.passwordConfirm) {
-                errors.passwordConfirm = "Passwords Not Matching*";
-              }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -91,13 +59,13 @@ function PostAdSeller() {
                 <div class="relative z-0 mb-6 w-full group">
                   <input
                     type="number"
-                    name="password"
+                    name="days"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.password}
+                    value={values.days}
                     id="floating_password"
                     class={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2  appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer ${
-                      errors.password ? "border-red-500" : "border-gray-300"
+                      errors.days ? "border-red-500" : "border-gray-300"
                     }`}
                     placeholder=" "
                   />
@@ -105,8 +73,8 @@ function PostAdSeller() {
                     for="floating_password"
                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    {errors.password ? (
-                      <span className="text-red-600">{errors.password}</span>
+                    {errors.days ? (
+                      <span className="text-red-600">{errors.days}</span>
                     ) : (
                       "Duration (Days) *"
                     )}
@@ -115,13 +83,13 @@ function PostAdSeller() {
                 <div class="relative z-0 mb-6 w-full group">
                   <input
                     type="password"
-                    name="passwordConfirm"
+                    name="price"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.passwordConfirm}
+                    value={values.price}
                     id="floating_repeat_password"
                     class={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2  appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer ${
-                      errors.passwordConfirm
+                      errors.price
                         ? "border-red-500"
                         : "border-gray-300"
                     }`}
@@ -131,9 +99,9 @@ function PostAdSeller() {
                     for="floating_repeat_password"
                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    {errors.passwordConfirm ? (
+                    {errors.price ? (
                       <span className="text-red-600">
-                        {errors.passwordConfirm}
+                        {errors.price}
                       </span>
                     ) : (
                       "Price (Rs) *"

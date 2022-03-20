@@ -1,4 +1,4 @@
-import React, { useState, Fragment,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
 import ListItemSeller from "../components/ListItemSeller";
 
@@ -45,32 +45,31 @@ const sortings = [
 ];
 
 function Search() {
+  const [sellers, setSellers] = useState(null);
+
+  const loadSellers = () => {
+    fetch(`http://localhost:5000/api/users/sellers`, {
+      method: "GET",
+      headers: new Headers({
+        Accept: "application/vnd.github.cloak-preview",
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setSellers(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    loadSellers();
+  }, []);
+
   const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
   const [selectedScale, setSelectedScale] = useState(scale[0]);
   const [selectedSorting, setSelectedSorting] = useState(districts[0]);
-  const [sellers, setSellers] = useState([]);
 
-  useEffect(() => {
-    fetchSellers();
-  }, [])
-  
-  const fetchSellers = async () => {
-    try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/sellers`)
-        .then(function (response) {
-          return response.json();
-        })
-        .then((res) => {
-          console.log(res);
-          setSellers(res.sellers);
-
-        })
-
-    } catch (e) {
-      //if failed to communicate with api this code block will run
-      console.log(e);
-    }
-  };
 
   return (
     <div>
@@ -79,7 +78,9 @@ function Search() {
         {/* <h1 class="text-3xl font-normal leading-normal mx-auto text-center lg:mx-72 mt-28 lg:text-left">
           Search Sellers
         </h1> */}
-          <h1 className="align self-center text-center w-auto text-3xl mt-24">Search Coconut Sellers</h1>
+        <h1 className="align self-center text-center w-auto text-3xl mt-24">
+          Search Coconut Sellers
+        </h1>
         <div className="flex flex-wrap mt-5 mx-10 justify-center">
           <div className="flex  mt-2">
             <SelectBox
@@ -108,12 +109,37 @@ function Search() {
           </div>
         </div>
 
+        {/* <div className="container py-4 mt-4">
+          <ListItemSeller name={"John Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={3}/>
+          <ListItemSeller name={"Nimal Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={4}/>
+          <ListItemSeller name={"Kasun Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={5}/>
+          <ListItemSeller name={"Dinith Fernando"} price={"120.00 Rs"} district={"Colombo"} scale={"Large"} rating={2}/>
+        </div> */}
         <div className="container py-4 mt-4">
-          {
-            sellers.map((seller) => {
-              return <ListItemSeller name={seller.name} id={seller._id} price={"120.00 Rs"} district={seller.district} scale={"Large"} rating={3}/>
+          {sellers ? (
+            sellers.map((e, i) => {
+              return (
+                <ListItemSeller
+                  name={e.name}
+                  district={e.dirstrict}
+                  scale={e.scaleOfBusiness}
+                  rating={i}
+                  id={e._id}
+                />
+              );
             })
-          }
+          ) : (
+            <center>
+              <div class="flex justify-center items-center">
+                <div
+                  class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </center>
+          )}
         </div>
       </div>
     </div>

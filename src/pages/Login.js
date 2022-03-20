@@ -1,14 +1,13 @@
-import {React,useState} from "react";
+import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 
 function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit=async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email);
     console.log(password);
@@ -19,7 +18,6 @@ function Login() {
         body: JSON.stringify({
           email: email,
           password: password,
-         
         }),
       };
       await fetch(
@@ -28,18 +26,17 @@ function Login() {
       )
         .then((res) => res.json())
         .then((item) => {
-          if('errors' in item){
+          if ("errors" in item) {
             setErrors(item.errors);
-          }else if("success" in item){
+          } else if ("success" in item) {
+            localStorage.setItem("token", item.token);
             navigate("/");
           }
         });
-      
     } catch (e) {
       console.log(e);
     }
-  }
-
+  };
 
   return (
     <div className="lg:flex ">
@@ -66,12 +63,14 @@ function Login() {
                 </div>
                 <input
                   name="email"
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-green-500"
                   type="email"
                   placeholder="mike@gmail.com"
                 />
-                {errors.email ? (<p className="text-red-500">{errors.email} !</p>):null}
+                {errors.email ? (
+                  <p className="text-red-500">{errors.email} !</p>
+                ) : null}
               </div>
               <div className="mt-8">
                 <div className="flex justify-between items-center">
@@ -89,14 +88,20 @@ function Login() {
                 </div>
                 <input
                   name="password"
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-green-500"
                   type="password"
                   placeholder="Enter your password"
                 />
-                {errors.password ? (<p className="text-red-500">{errors.password} !</p>):null}
+                {errors.password ? (
+                  <p className="text-red-500">{errors.password} !</p>
+                ) : null}
               </div>
-              {errors.invalidCredentials ? (<h4 className="text-red-500 text-center">{errors.invalidCredentials} !</h4>):null}
+              {errors.invalidCredentials ? (
+                <h4 className="text-red-500 text-center">
+                  {errors.invalidCredentials} !
+                </h4>
+              ) : null}
               <div className="mt-10">
                 <button
                   className="bg-green-500 text-gray-100 p-4 w-full rounded-full tracking-wide
