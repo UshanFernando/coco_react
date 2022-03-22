@@ -1,54 +1,9 @@
 import React, { useState, Fragment } from "react";
-import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
-import ListItemAd from "../components/ListItemAd";
-import ListItemAdSellers from "../components/ListItemAdSeller";
-import ListItemOffer from "../components/ListItemOffer";
-import ListItemSeller from "../components/ListItemSeller";
 
-import SelectBox from "../components/SelectBox";
 import DataTable from "react-data-table-component";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import UserSidebar from "../components/UserSidebar";
-
-const districts = [
-  { id: 1, name: "Colombo", unavailable: false },
-  { id: 2, name: "Gampaha", unavailable: false },
-  { id: 3, name: "Kalutara", unavailable: false },
-  { id: 4, name: "Kandy", unavailable: false },
-  { id: 5, name: "Matale", unavailable: false },
-  { id: 6, name: "Nuwara Eliya", unavailable: false },
-  { id: 7, name: "Galle", unavailable: false },
-  { id: 8, name: "Hambantota", unavailable: false },
-  { id: 9, name: "Jaffna", unavailable: false },
-  { id: 10, name: "Kilinochchi", unavailable: false },
-  { id: 12, name: "Vavuniya", unavailable: false },
-  { id: 13, name: "Mullaitivu", unavailable: false },
-  { id: 14, name: "Batticaloa", unavailable: false },
-  { id: 15, name: "Trincomalee", unavailable: false },
-  { id: 16, name: "Kurunegala", unavailable: false },
-  { id: 17, name: "Puttalam", unavailable: false },
-  { id: 18, name: "Anuradhapura", unavailable: false },
-  { id: 19, name: "Polonnaruwa", unavailable: false },
-  { id: 20, name: "Badulla", unavailable: false },
-  { id: 21, name: "Moneragala", unavailable: false },
-  { id: 22, name: "Ratnapura", unavailable: false },
-  { id: 23, name: "Kegalle", unavailable: false },
-];
-
-const scale = [
-  { id: 1, name: "Small", unavailable: false },
-  { id: 2, name: "Medium", unavailable: false },
-  { id: 3, name: "Large", unavailable: false },
-  { id: 4, name: "Any", unavailable: false },
-];
-
-const sortings = [
-  { id: 0, name: "Select Criteria", unavailable: false },
-  { id: 1, name: "Highest Price", unavailable: false },
-  { id: 2, name: "Overall Highest Rating", unavailable: false },
-  { id: 3, name: "Highest Price and Rating", unavailable: false },
-  { id: 4, name: "Punctually Rating Highest", unavailable: false },
-];
+import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
 
 const acceptHandler = (state) => {
   console.log("clicked accepted");
@@ -149,10 +104,7 @@ const data = [
   },
 ];
 
-function MyOffers() {
-  const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
-  const [selectedScale, setSelectedScale] = useState(scale[0]);
-  const [selectedSorting, setSelectedSorting] = useState(districts[0]);
+function MyBids() {
   const [isOpened, setIsOpened] = useState(false);
   const handleSidebar = () => {
     setIsOpened(!isOpened);
@@ -162,7 +114,7 @@ function MyOffers() {
       <UserSidebar
         handleSidebar={handleSidebar}
         isOpened={isOpened}
-        selected="offers"
+        selected="bids"
       />
       <div className="flex-1 flex overflow-hidden pt-16 ">
         <div class="flex-1 overflow-y-scroll">
@@ -175,7 +127,7 @@ function MyOffers() {
           </div>
           <br/>
           <div>
-            <h3 className=" text-2xl font-semibold mb-4 mt-20 w-full justify-center  text-center">My Offers</h3>
+            <h3 className=" text-2xl font-semibold mb-4 mt-20 w-full justify-center  text-center">My Bids</h3>
             <div className="w-4/5 mx-auto ">
               <DataTable
                 columns={columns}
@@ -202,4 +154,4 @@ function MyOffers() {
   );
 }
 
-export default MyOffers;
+export default MyBids;

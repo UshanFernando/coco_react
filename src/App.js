@@ -27,6 +27,7 @@ import OfferDetails from "./pages/OfferDetails";
 import Auth from "./Authentication/Auth";
 import { RequireAuth } from "./components/RequiredAuth";
 import { RequireAdmin } from "./components/RequiredAdmin";
+import MyBids from "./pages/MyBids";
 
 function App() {
   return (
@@ -98,6 +99,10 @@ function App() {
 
           <Route element={<WithNav />}>
             <Route path="/viewOffer" element={<OfferDetails />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/bids" element={<MyBids />} />
           </Route>
 
           {/* <Route exact path="/login" element={<Login />} />

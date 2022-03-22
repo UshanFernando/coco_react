@@ -121,7 +121,7 @@ function Search() {
               return (
                 <ListItemSeller
                   name={e.name}
-                  district={e.dirstrict}
+                  district={e.district}
                   scale={e.scaleOfBusiness}
                   rating={i}
                   id={e._id}

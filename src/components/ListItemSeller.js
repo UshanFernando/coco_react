@@ -16,10 +16,10 @@ function ListItemSeller({ name, district, scale, price, rating,id }) {
             <h5 class="text-gray-900 text-base font-medium ">{price}</h5>
             <div className="flex flex-col md:flex-col sm:flex-col lg:flex-row">
               <h5 class="text-gray-900 text-base  font-medium flex">
-                <span className="font-semibold">District:</span> {district}
+                <span className="font-semibold mr-1">District:</span> {district}
               </h5>
               <h5 class="text-gray-900 text-base  font-medium flex lg:ml-4">
-                <span className="font-semibold">Scale : </span> {scale}
+                <span className="font-semibold mr-1">Scale: </span> {scale}
               </h5>
             </div>
             <div className="-mt-2">
