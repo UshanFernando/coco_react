@@ -2,6 +2,7 @@ import { ScaleIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect } from "react";
 import ReactStars from "react-rating-stars-component";
 import { useParams } from "react-router-dom";
+import Auth from "../Authentication/Auth";
 
 const styles = {
   detailName: "text-xl font-semibold col-span-3",
@@ -9,32 +10,34 @@ const styles = {
 };
 
 function SellerDetails() {
-  const [sellerDetails, setSellerDetails] = useState(false);
+  const [sellerDetails, setSellerDetails] = useState({});
   const { id } = useParams();
-  const [seller, setSeller] = useState({});
   const [errorMessage, setErrors] = useState({});
   const [successMessage, setSuccess] = useState(null);
   const [bidAmount, setBidAmount] = useState({});
 
-  // useEffect(() => {
-  //   fetchSeller();
-  // }, [])
-  // const fetchSeller = async () => {
-  //   try {
-  //     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/seller?userId=${id}`)
-  //       .then(function (response) {
-  //         return response.json();
-  //       })
-  //       .then((res) => {
-  //         console.log(res);
-  //         setSeller(res.sellers);
-  //       })
 
-  //   } catch (e) {
-  //     //if failed to communicate with api this code block will run
-  //     console.log(e);
-  //   }
-  // };
+  useEffect(() => {
+    loadSellerDetails();
+  }, []);
+
+  const loadSellerDetails = () => {
+    console.log(id);
+    fetch(`http://localhost:5000/api/users/sellerDetails`, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ id: id }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setSellerDetails(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -44,10 +47,10 @@ function SellerDetails() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            buyerName: "question",
-            buyerId: "question",
-            sellerId: seller._id,
-            sellerName: seller.name,
+            buyerName: Auth.getUserName(),
+            buyerId: Auth.getUserId(),
+            sellerId: sellerDetails._id,
+            sellerName: sellerDetails.name,
             amount:bidAmount,
           }),
         };
@@ -72,28 +75,6 @@ function SellerDetails() {
       }
     
   };
-
-  const loadSellerDetails = () => {
-    console.log(id);
-    fetch(`http://localhost:5000/api/users/sellerDetails`, {
-      method: "POST",
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({ id: id }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setSellerDetails(response);
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  useEffect(() => {
-    loadSellerDetails();
-  }, []);
 
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">

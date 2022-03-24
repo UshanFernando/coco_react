@@ -26,6 +26,15 @@ const getUserId = () => {
     return uId;
 }
 
+const getUserName = () => {
+    let uId=null;
+    const user = parseJwt(getToken());
+   
+    uId =user.name;
+    
+    return uId;
+}
+
 const parseJwt = (token)=> {
     if (!token) { return; }
     const base64Url = token.split('.')[1];
@@ -42,6 +51,7 @@ const logout = () => {
 module.exports = {
     getToken,
     getUserLevel,
+    getUserName,
     isAuthenticated,
     getUserId,
     logout
