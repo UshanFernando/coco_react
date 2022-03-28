@@ -50,6 +50,8 @@ const sortings = [
   { id: 4, name: "Punctually Rating Highest", unavailable: false },
 ];
 
+
+
 const customStyles = {
   rows: {
     style: {
@@ -88,7 +90,7 @@ const data = [
   },
 ];
 
-function MyOffers() {
+function MyOffersBuyer() {
   const [selectedDistrict, setSelectedDistrict] = useState(districts[0]);
   const [selectedScale, setSelectedScale] = useState(scale[0]);
   const [selectedSorting, setSelectedSorting] = useState(districts[0]);
@@ -97,7 +99,9 @@ function MyOffers() {
   const [error, setError] = useState([]);
 
   const acceptHandler = (state) => {
-    fetch(`http://localhost:5000/api/offers/confirm`, {
+    console.log("clicked accepted");
+    console.log(state.target.id);
+    fetch(`http://localhost:5000/api/offers/accept-offer-buyer`, {
       method: "POST",
       headers: new Headers({
         Accept: "application/json",
@@ -108,8 +112,8 @@ function MyOffers() {
       .then((res) => res.json())
       .then((response) => {
         setError(response);
+        loadBuyersOffers();
         console.log(response);
-        loadSellerOffers();
       })
       .catch((error) => console.log(error));
   };
@@ -129,10 +133,31 @@ function MyOffers() {
       .then((res) => res.json())
       .then((response) => {
         setError(response);
-        loadSellerOffers();
+        loadBuyersOffers();
         console.log(response);
       })
       .catch((error) => console.log(error));
+  };
+
+  const loadBuyersOffers = () => {
+    fetch(`http://localhost:5000/api/offers/offers-buyer`, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ id: Auth.getUserId() }),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setOffers(response);
+        console.log(response);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleSidebar = () => {
+    setIsOpened(!isOpened);
   };
 
   const columns = [
@@ -184,13 +209,13 @@ function MyOffers() {
     {
       name: "Actions",
       cell: (row) =>
-        row.status == "accepted" ? (
+        row.status == "pending" ? (
           <button
             className="bg-green-600 p-2 rounded-2xl text-white "
             onClick={acceptHandler}
             id={row._id}
           >
-            Confirm
+            Accept
           </button>
         ) : (
           <h1> N/A</h1>
@@ -201,13 +226,13 @@ function MyOffers() {
     },
     {
       cell: (row) =>
-        row.status == "accepted" ? (
+        row.status == "pending" ? (
           <button
-            className="bg-red-500 p-2 rounded-2xl text-white "
+            className="bg-red-600 p-2 rounded-2xl text-white "
             onClick={declineHandler}
             id={row._id}
           >
-            Cancel
+            Decline
           </button>
         ) : (
           <h1> </h1>
@@ -218,29 +243,8 @@ function MyOffers() {
     },
   ];
 
-  const loadSellerOffers = () => {
-    fetch(`http://localhost:5000/api/offers/offers-seller`, {
-      method: "POST",
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({ id: Auth.getUserId() }),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        setOffers(response);
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const handleSidebar = () => {
-    setIsOpened(!isOpened);
-  };
-
   useEffect(() => {
-    loadSellerOffers();
+    loadBuyersOffers();
   }, []);
 
   return (
@@ -290,4 +294,4 @@ function MyOffers() {
   );
 }
 
-export default MyOffers;
+export default MyOffersBuyer;

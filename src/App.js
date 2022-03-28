@@ -28,8 +28,15 @@ import Auth from "./Authentication/Auth";
 import { RequireAuth } from "./components/RequiredAuth";
 import { RequireAdmin } from "./components/RequiredAdmin";
 import MyBids from "./pages/MyBids";
+import MyOffersBuyer from "./pages/MyOffersBuyer";
 
 function App() {
+  const logout = (component) => {
+    //posting arg1 as an example of whatever you are wanting to do.
+    Auth.logout();
+    return component;
+  };
+
   return (
     <>
       <Router>
@@ -98,11 +105,20 @@ function App() {
           </Route>
 
           <Route element={<WithNav />}>
+            <Route path="/offersBuyer" element={<MyOffersBuyer />} />
+          </Route>
+
+
+          <Route element={<WithNav />}>
             <Route path="/viewOffer" element={<OfferDetails />} />
           </Route>
 
           <Route element={<WithNav />}>
             <Route path="/bids" element={<MyBids />} />
+          </Route>
+
+          <Route element={<WithNav />}>
+            <Route path="/logout" element={() =>logout(<Home />)} />
           </Route>
 
           {/* <Route exact path="/login" element={<Login />} />

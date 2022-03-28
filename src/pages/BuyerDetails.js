@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 
 import { useParams } from "react-router";
+import { getUserLevel } from "../Authentication/Auth";
+import Auth from "../Authentication/Auth";
 
 const styles = {
   detailName: "text-xl  col-span-3",
@@ -13,15 +15,16 @@ function BuyerDetails() {
   const { id } = useParams();
 
   const [buyerDetails, setBuyerDetails] = useState(false);
-  
+  const [offerAmount, setOfferAmount] = useState("");
+  const [errorMessage, setErrors] = useState({});
 
   const loadBuyerDetails = () => {
     console.log(id);
-    fetch(`http://localhost:5000/api/users/buyerDetails`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/buyerDetails`, {
       method: "POST",
       headers: new Headers({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       }),
       body: JSON.stringify({ id: id }),
     })
@@ -36,6 +39,43 @@ function BuyerDetails() {
   useEffect(() => {
     loadBuyerDetails();
   }, []);
+
+  const onSubmit = async () => {
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          buyerName: buyerDetails.buyerName,
+          buyerId: id,
+          sellerId: Auth.getUserId(),
+          sellerName: Auth.getUserName(),
+          amount: offerAmount,
+        }),
+      };
+      await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/offers/add`,
+        requestOptions
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.errors != null || res.errors != undefined) {
+            setErrors(res.errors);
+          } else {
+            const msg = {
+              success: "Offer Successfully Send",
+            };
+            setErrors(msg);
+            setOfferAmount("");
+          }
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="container px-0 lg:px-40 sm:px-10 md:px-20 ">
@@ -138,41 +178,48 @@ function BuyerDetails() {
                   <div className={styles.detailValue + " font-bold"}>
                     {buyerDetails.phone}
                   </div>
-                  <div className={styles.detailName + " mt-5 font-semibold"}>
-                    Offer
-                  </div>
 
-                  <input
-                    type="number"
-                    className="
-                    -ml-2
-                    mt-2
-        form-control
-        block
-        w-32
-        h-10
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-yellow-50 bg-clip-padding
-        border border-solid border-gray-300
-        rounded-lg
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-      "
-                    id="exampleNumber0"
-                    placeholder="0,00"
-                  />
-                  <button
-                    type="button"
-                    className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
-                  >
-                    Confirm
-                  </button>
+                  {getUserLevel() == "Seller" ? (
+                    <>
+                      <div
+                        className={styles.detailName + " mt-5 font-semibold"}
+                      >
+                        Offer
+                      </div>
+                      <input
+                        type="number"
+                        className="-ml-2 mt-2 form-controlblock w-32 h-10 px-3 py-1.5 text-base font-normal text-gray-700 bg-yellow-50 bg-clip-padding border border-solid border-gray-300 rounded-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        id="exampleNumber0"
+                        placeholder="0,00"
+                        value={offerAmount}
+                        onChange={(e) => setOfferAmount(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="inline-block px-2 py-1.0 bg-green-400 text-white font-medium text-base leading-tight uppercase rounded-full shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out"
+                        onClick={() => onSubmit()}
+                      >
+                        Confirm
+                      </button>{" "}
+                    </>
+                  ) : null}
+                </div>
+                <div className="ml-2 mb-2">
+                  {errorMessage.amount != null ? (
+                    <strong className="text-red-500 text-sm">
+                      {errorMessage.amount}
+                    </strong>
+                  ) : null}
+                  {errorMessage.offer != null ? (
+                    <strong className="text-red-500 text-sm">
+                      {errorMessage.offer}
+                    </strong>
+                  ) : null}
+                  {errorMessage.success != null ? (
+                    <strong className="text-green-500 text-sm">
+                      {errorMessage.success}
+                    </strong>
+                  ) : null}
                 </div>
               </div>
             ) : (

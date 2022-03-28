@@ -9,6 +9,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/solid";
+import {getUserLevel} from "../Authentication/Auth"
 
 function UserSidebar({ handleSidebar, isOpened, selected }) {
   return (
@@ -30,7 +31,7 @@ function UserSidebar({ handleSidebar, isOpened, selected }) {
         >
           <a
             class="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-gray-900 hover:bg-lime-300 transition duration-300 ease-in-out"
-            href="/offers"
+            href={getUserLevel()== "Seller" ? "offers" :"offersBuyer"}
             data-mdb-ripple="true"
             data-mdb-ripple-color="dark"
           >

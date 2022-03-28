@@ -30,6 +30,7 @@ const getUserName = () => {
     let uId=null;
     const user = parseJwt(getToken());
    
+    if(user)
     uId =user.name;
     
     return uId;
