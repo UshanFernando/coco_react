@@ -31,11 +31,11 @@ import MyBids from "./pages/MyBids";
 import MyOffersBuyer from "./pages/MyOffersBuyer";
 
 function App() {
-  const logout = (component) => {
-    //posting arg1 as an example of whatever you are wanting to do.
-    Auth.logout();
-    return component;
-  };
+  // const logout = (component) => {
+  //   //posting arg1 as an example of whatever you are wanting to do.
+  //   Auth.logout();
+  //   return component;
+  // };
 
   return (
     <>
@@ -117,9 +117,9 @@ function App() {
             <Route path="/bids" element={<MyBids />} />
           </Route>
 
-          <Route element={<WithNav />}>
+          {/* <Route element={<WithNav />}>
             <Route path="/logout" element={() =>logout(<Home />)} />
-          </Route>
+          </Route> */}
 
           {/* <Route exact path="/login" element={<Login />} />
         <Route exact path="/recovery-password" element={<RecoveryPassword />} /> */}

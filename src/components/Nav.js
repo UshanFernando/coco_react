@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 import Logo from "../assets/logo_small.jpg";
-import { getUserName, isAuthenticated,getUserLevel } from "../Authentication/Auth";
+import { getUserName, isAuthenticated,getUserLevel,logout } from "../Authentication/Auth";
+import { useNavigate } from "react-router-dom";
 
 function Nav() {
+  let navigate=useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <nav
@@ -211,7 +213,11 @@ function Nav() {
                 <li>
                   <a
                     class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                    href="/logout"
+                    onClick={()=>logout(res=>{
+                      if(res){
+                        navigate("/");
+                      }
+                    })}
                   >
                     Logout
                   </a>
