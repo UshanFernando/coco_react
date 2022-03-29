@@ -15,6 +15,7 @@ function SellerDetails() {
   const [errorMessage, setErrors] = useState({});
   const [successMessage, setSuccess] = useState(null);
   const [bidAmount, setBidAmount] = useState({});
+  const [userType, setUserType] = useState(Auth.getUserLevel())
 
 
   useEffect(() => {
@@ -168,6 +169,7 @@ function SellerDetails() {
                   onChange={(e) => setBidAmount(e.target.value)}
                     id="exampleNumber0"
                     placeholder="0,00"
+                    disabled={userType==="Buyer"?false:true}
                   />
                   <button
                   onClick={(e) => onSubmit(e)}

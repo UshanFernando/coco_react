@@ -6,37 +6,7 @@ import UserSidebar from "../components/UserSidebar";
 import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
 import Auth from "../Authentication/Auth";
 
-const acceptHandler = (state) => {
-  console.log("clicked accepted");
-  console.log(state.target.id);
-};
 
-const declineHandler = (state) => {
-  console.log("clicked decline");
-  console.log(state.target.id);
-};
-
-const columns = [
-  {
-    name: "Price",
-    selector: (row) => row.amount,
-    sortable: true,
-  },
-  {
-    name: "Seller",
-    selector: (row) => row.sellerName,
-  },
-  {
-    name: "Status",
-    selector: (row) => <h4 className={row.status=='pending'?'text-yellow-600 capitalize':'capitalize'}>{row.status}</h4>,
-    sortable: true,
-  },
-  {
-    name: "See more",
-    selector: (row) => <a href={`viewSeller${row.sellerId}`} >View</a>,
-    sortable: true,
-  },
-];
 
 const customStyles = {
   rows: {
@@ -80,15 +50,88 @@ function MyBids() {
   const [isOpened, setIsOpened] = useState(false);
   const [userType, setUserType] = useState(Auth.getUserLevel())
   const [bids, setBids] = useState([])
+  const [error, setError] = useState([]);
   const handleSidebar = () => {
     setIsOpened(!isOpened);
   };
+
+  const columns = [
+    {
+      name: "Price",
+      selector: (row) => row.amount +" /=" ,
+      sortable: true,
+    },
+    {
+      name: `${userType == "Buyer" ? "Seller" : "Buyer"}`,
+      selector: (row) => {
+        if(userType == "Buyer"){
+          return row.sellerName
+        }else{
+          return row.buyerName
+        }
+      },
+    },
+    {
+      name: "Status",
+      selector: (row) => <h4 className={row.status=='pending'?'text-yellow-600 capitalize':'text-green-500 capitalize'}>{row.status}</h4>,
+      sortable: true,
+    },
+    {
+      name: "See more",
+      selector: (row) => <a href={`viewSeller${row.sellerId}`} >View</a>,
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) =>
+        row.status == "pending" ? (
+          <button
+            className="bg-green-400 p-2 rounded-2xl text-white "
+            onClick={(e)=>acceptHandler(row._id,"confirmed",e)}
+            id={row._id}
+          >
+            Confirm
+          </button>
+        ) : (
+          <button
+            className="bg-orange-300 p-2 rounded-2xl text-white "
+            onClick={(e)=>acceptHandler(row._id,"pending",e)}
+            id={row._id}
+          >
+            Pending
+          </button>
+        ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    }
+  ];
+
   useEffect(() => {
-    loadBuyerBids();
+    loadBids();
   }, []);
 
-  const loadBuyerBids = () => {
-    fetch(`http://localhost:5000/api/bids/bids-buyer?id=${Auth.getUserId()}`, {
+  const acceptHandler = (id,status,e) => {
+    e.preventDefault();
+    fetch(`http://localhost:5000/api/bids/confirm`, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({ id: id,status: status}),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        setError(response);
+        console.log(response);
+        loadBids();
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const loadBids = () => {
+    fetch(`http://localhost:5000/api/bids/${userType=="buyer"?'bids-buyer':'bids-seller'}?id=${Auth.getUserId()}`, {
       method: "GET",
       headers: new Headers({
         Accept: "application/json",
