@@ -46,52 +46,32 @@ const data = [
 ];
 
 function MyOffersBuyer() {
-  const [harvestDate, setHarvestDate] = useState(null);
+
   const [isOpened, setIsOpened] = useState(true);
   const [offers, setOffers] = useState([]);
   const [error, setError] = useState([]);
-  const [errorBox, setErrorBox] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [row, setRow] = useState(null);
 
-  const handleAccept = (state) => {
-    console.log("clicked accepted");
-    console.log(state.target.id);
-    setIsOpen(true);
-    setRow(state);
-  };
 
-  const acceptHandler = () => {
+  const acceptHandler = (row) => {
     console.log("clicked accepted");
     console.log(row.target.id);
 
-    if (harvestDate == null || harvestDate == "") {
-      setErrorBox("Invalid Date");
-      return;
-    }
     fetch(`http://localhost:5000/api/offers/accept-offer-buyer`, {
       method: "POST",
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
       }),
-      body: JSON.stringify({ id: row.target.id, date: harvestDate }),
+      body: JSON.stringify({ id: row.target.id}),
     })
       .then((res) => res.json())
       .then((response) => {
         setError(response);
-        setIsOpen(false);
-        setHarvestDate(null);
-        setRow(null);
         loadBuyersOffers();
-        setErrorBox("");
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
-        setHarvestDate(null);
-        setRow(null);
-        setErrorBox("");
       });
   };
 
@@ -194,7 +174,7 @@ function MyOffersBuyer() {
         row.status == "pending" ? (
           <button
             className="bg-green-600 p-2 rounded-2xl text-white "
-            onClick={handleAccept}
+            onClick={acceptHandler}
             id={row._id}
           >
             Accept
@@ -259,52 +239,7 @@ function MyOffersBuyer() {
             </div>
           </div>
 
-          <Dialog
-            open={isOpen}
-            onClose={() => setIsOpen(false)}
-            className="fixed z-10 inset-0 overflow-y-auto"
-          >
-            <div className="flex items-center justify-center min-h-screen">
-              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
 
-              <div className="relative bg-white rounded max-w-sm mx-auto p-10">
-                <Dialog.Title className="font-semibold">
-                  Select Harvest Date
-                </Dialog.Title>
-                <Dialog.Description>
-                  <input
-                    className="my-4 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    type="date"
-                    name="registered_business"
-                    id="inlineRadio1"
-                    value={harvestDate}
-                    onChange={(e) => setHarvestDate(e.target.value)}
-
-                    // value={values.inlineRadioOptions2}
-                  />
-                  {errorBox != "" ? (
-                    <h1 className="text-red-600">{errorBox}</h1>
-                  ) : (
-                    ""
-                  )}
-                  <div>
-                    <button
-                      className="bg-green-300 m-3 px-4 py-2"
-                      onClick={acceptHandler}
-                    >
-                      OK
-                    </button>
-                    <button
-                      className="bg-red-300 m-3 mt-4 px-4 py-2"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </Dialog.Description>
-              </div>
-            </div>
-          </Dialog>
         </div>
       </div>
     </div>
