@@ -5,6 +5,7 @@ import { ArrowRightIcon } from "@heroicons/react/solid";
 import UserSidebar from "../components/UserSidebar";
 import AdvertistmentCarousel from "../components/AdvertistmentCarousel";
 import Auth from "../Authentication/Auth";
+import { Dialog } from "@headlessui/react";
 
 const customStyles = {
   rows: {
@@ -45,10 +46,15 @@ const data = [
 ];
 
 function MyBids() {
+  const [harvestDate, setHarvestDate] = useState(null);
   const [isOpened, setIsOpened] = useState(false);
   const [userType, setUserType] = useState(Auth.getUserLevel());
   const [bids, setBids] = useState([]);
   const [error, setError] = useState([]);
+  const [errorBox, setErrorBox] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [row, setRow] = useState(null);
+  const [status, setStatus] = useState('');
   const handleSidebar = () => {
     setIsOpened(!isOpened);
   };
@@ -75,13 +81,18 @@ function MyBids() {
         <h4
           className={
             row.status == "pending"
-              ? "text-yellow-600 capitalize"
-              : "text-green-500 capitalize"
+              ? "text-yellow-600 capitalize font-semibold"
+              : "text-green-500 capitalize font-semibold"
           }
         >
           {row.status}
         </h4>
       ),
+      sortable: true,
+    },
+    {
+      name: "Harvest Date",
+      selector: (row) => row.harvestDate !== '' && row.harvestDate != null? row.harvestDate : '-',
       sortable: true,
     },
     {
@@ -92,10 +103,10 @@ function MyBids() {
     {
       name: "Actions",
       cell: (row) =>
-        userType != "Buyer" && row.status == "pending" ? (
+        userType !== "Buyer" && row.status === "pending" ? (
           <button
             className="bg-green-400 p-2 rounded-2xl text-white "
-            onClick={(e) => acceptHandler(row._id, "confirmed", e)}
+            onClick={(e) => handleAccept(row._id, "confirmed", e)}
             id={row._id}
           >
             Confirm
@@ -103,7 +114,7 @@ function MyBids() {
         ) : userType != "Buyer" && row.status != "pending" ? (
           <button
             className="bg-orange-300 p-2 rounded-2xl text-white "
-            onClick={(e) => acceptHandler(row._id, "pending", e)}
+              onClick={(e) => handleAccept(row._id, "pending", e)}
             id={row._id}
           >
             Pending
@@ -120,24 +131,37 @@ function MyBids() {
   useEffect(() => {
     loadBids();
   }, []);
-
-  const acceptHandler = (id, status, e) => {
+  const handleAccept = (id, status, e) => {
     e.preventDefault();
+    setIsOpen(true);
+    setRow(id);
+    setStatus(status);
+  };
+  const acceptHandler = () => {
+    // e.preventDefault();
     fetch(`http://localhost:5000/api/bids/confirm`, {
       method: "POST",
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
       }),
-      body: JSON.stringify({ id: id, status: status }),
+      body: JSON.stringify({ id: row, status: status,harvestDate:harvestDate }),
     })
       .then((res) => res.json())
       .then((response) => {
         setError(response);
         console.log(response);
         loadBids();
+        setIsOpen(false);
+        setHarvestDate(null);
+        setRow(null);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+      console.log(error);
+        setHarvestDate(null);
+        setRow(null);
+        setErrorBox("");
+    });
   };
 
   const loadBids = () => {
@@ -191,6 +215,53 @@ function MyBids() {
               />
             </div>
           </div>
+
+          <Dialog
+            open={isOpen}
+            onClose={() => setIsOpen(false)}
+            className="fixed z-10 inset-0 overflow-y-auto"
+          >
+            <div className="flex items-center justify-center min-h-screen">
+              <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+
+              <div className="relative bg-white rounded max-w-sm mx-auto p-10">
+                <Dialog.Title className="font-semibold">
+                  Select Harvest Date
+                </Dialog.Title>
+                <Dialog.Description>
+                  <input
+                    className="my-4 block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    type="date"
+                    name="registered_business"
+                    id="inlineRadio1"
+                    value={harvestDate}
+                    onChange={(e) => setHarvestDate(e.target.value)}
+
+                  // value={values.inlineRadioOptions2}
+                  />
+                  {errorBox != "" ? (
+                    <h1 className="text-red-600">{errorBox}</h1>
+                  ) : (
+                    ""
+                  )}
+                  <div>
+                    <button
+                      className="bg-green-300 m-3 px-4 py-2"
+                      onClick={acceptHandler}
+                    >
+                      OK
+                    </button>
+                    <button
+                      className="bg-red-300 m-3 mt-4 px-4 py-2"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </Dialog.Description>
+              </div>
+            </div>
+          </Dialog>
 
           {/*         
             <center>
